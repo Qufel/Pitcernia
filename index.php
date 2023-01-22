@@ -75,7 +75,7 @@
                 </div>
             </ul>
     </div>
-    <button type="button" class="btn btn-outline-success" data-bs-target="#loginModal" data-bs-toggle="modal">
+    <button type="button" class="btn btn-outline-primary" data-bs-target="#loginModal" data-bs-toggle="modal">
         Zaloguj się
     </button>
     <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">
@@ -104,11 +104,11 @@
                         <a href="#">Zapomniałeś hasła?</a>
                     </div>
                     <div class="d-grid mb-3">
-                        <button type="submit" class="btn btn-outline-success">
+                        <button type="submit" class="btn btn-outline-primary">
                             Zaloguj się
                         </button>
                         <hr>
-                        <a href="#" type="button" class="btn btn-outline-success">
+                        <a href="#" type="button" class="btn btn-outline-primary">
                             Zarejestruj się
                         </a>
                     </div>
