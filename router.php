@@ -10,7 +10,7 @@ dlatego WAŻNE żeby folder z projektem nazywał sie u każdego tak samo!!!
 */
 
 $routes = [
-    '/pitcernia/' => 'controllers/index.php',
+    '/pitcernia/' => 'controllers/home.php',
     '/pitcernia/menu' => 'controllers/menu.php',
     '/pitcernia/contact' => 'controllers/contact.php',
     '/pitcernia/cart' => 'controllers/cart.php',

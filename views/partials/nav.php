@@ -1,21 +1,19 @@
-<?php $baseUri = "/pitcernia/" ?>
-
 <nav class="navbar navbar-expand-md navbar-light">
     <div class="container">
-        <a href="<?php echo $baseUri ?>" class="navbar-brand mb-0 h1">
+        <a href="<?php echo "/pitcernia/" ?>" class="navbar-brand mb-0 h1">
             <i class="fi fi-rr-pizza-slice"></i>
             Pitcernia
         </a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav w-100 d-flex">
                 <div class="d-md-flex col-lg-8 col-md-6">
-                    <li class="nav-item <?php if($_SERVER["REQUEST_URI"] === $baseUri . "menu") {echo "active";} ?>">
+                    <li class="nav-item <?php if($_SERVER["REQUEST_URI"] === "/pitcernia/menu") {echo "active";} ?>">
                         <a href="menu" class="nav-link">
                             <i class="fi fi-rr-pizza-slice"></i>
                             Menu
                         </a>
                     </li>
-                    <li class="nav-item <?php if($_SERVER["REQUEST_URI"] === $baseUri . "contact") {echo "active";} ?>">
+                    <li class="nav-item <?php if($_SERVER["REQUEST_URI"] === "/pitcernia/contact") {echo "active";} ?>">
                         <a href="contact" class="nav-link">
                             <i class="fi fi-rr-phone-call"></i>
                             Kontakt
@@ -24,14 +22,14 @@
                 </div>
                 <div class="d-md-flex col-lg-4 col-md-6 justify-content-end">
                     <!--Domyślnie ukryte, aktywuje się po zalogowaniu (usuwanie klasy d-none)-->
-                    <li class="nav-item <?php if($_SERVER["REQUEST_URI"] === $baseUri . "cart") {echo "active";} ?>">
+                    <li class="nav-item <?php if($_SERVER["REQUEST_URI"] === "/pitcernia/cart") {echo "active";} ?>">
                         <a href="cart" class="nav-link">
                             <i class="fi fi-rr-shopping-cart"></i>
                             Koszyk
                         </a>
                     </li>
                     <!--Domyślnie ukryte, aktywuje się po zalogowaniu (usuwanie klasy d-none)-->
-                    <li class="nav-item dropdown <?php if($_SERVER["REQUEST_URI"] === $baseUri . "profile") {echo "active";} ?>">
+                    <li class="nav-item dropdown <?php if($_SERVER["REQUEST_URI"] === "/pitcernia/profile") {echo "active";} ?>">
                         <a href="#" class="dropdown-toggle nav-link" id="navbarUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fi fi-rr-user"></i>
                             Profil
@@ -66,18 +64,24 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Zaloguj się</h5>
+                <h4 class="modal-title">Zaloguj się</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="#" method="post">
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="login_input" name="login" placeholder="Nazwa użytkownika">
-                        <label for="login_input">Nazwa użytkownika</label>
+                <form action="login" method="post">
+                    <div class="mb-3 input-group d-flex">
+                        <span class="input-group-text"><i class="fi fi-rr-user"></i></span>
+                        <div class="form-floating flex-grow-1">
+                            <input type="text" class="form-control" id="login_input" name="login" placeholder="Nazwa użytkownika">
+                            <label for="login_input">Nazwa użytkownika</label>
+                        </div>
                     </div>
-                    <div class="form-floating mb-3">
-                        <input type="password" class="form-control" id="passwd_input" name="password" placeholder="Hasło">
-                        <label for="passwd_input">Hasło</label>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"><i class="fi fi-rr-lock"></i></span>
+                        <div class="form-floating flex-grow-1">
+                            <input type="password" class="form-control" id="passwd_input" name="password" placeholder="Hasło">
+                            <label for="passwd_input">Hasło</label>
+                        </div>
                     </div>
                     <div class="mb-3 d-flex">
                         <a href="reset-password">Zapomniałeś hasła?</a>
