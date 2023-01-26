@@ -15,7 +15,8 @@ $routes = [
     '/pitcernia/contact' => 'controllers/contact.php',
     '/pitcernia/cart' => 'controllers/cart.php',
     '/pitcernia/profile' => 'controllers/profile.php',
-    '/pitcernia/register' => 'controllers/register.php'
+    '/pitcernia/register' => 'controllers/register.php',
+    '/pitcernia/login' => 'controllers/login.php'
 ];
 
 function RouteToController($uri, $routes){
@@ -25,11 +26,5 @@ function RouteToController($uri, $routes){
         Abort(404);
     }
 } 
-
-function Abort($code = 404){
-    http_response_code($code);
-    require "views/errors/$code.php";
-    die();
-}
 
 RouteToController($uri, $routes);

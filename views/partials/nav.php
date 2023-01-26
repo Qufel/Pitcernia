@@ -1,8 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-light">
     <div class="container">
         <a href="<?php echo "/pitcernia/" ?>" class="navbar-brand mb-0 h1">
-            <i class="fi fi-rr-pizza-slice"></i>
-            Pitcernia
+            <img src="assets/logo.svg" alt="" srcset="" style="height: 3rem;">
         </a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav w-100 d-flex">
@@ -52,52 +51,10 @@
                 </div>
             </ul>
     </div>
-    <button type="button" class="btn btn-outline-primary" data-bs-target="#loginModal" data-bs-toggle="modal">
+    <a type="button" href="login" class="btn btn-dark">
         Zaloguj się
-    </button>
+    </a>
     <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">
         <i class="fi fi-rr-menu-burger"></i>
     </button>
 </nav>
-<!-- Formularz logowania -->
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="Login Modal" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Zaloguj się</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="login" method="post">
-                    <div class="mb-3 input-group d-flex">
-                        <span class="input-group-text d-none d-md-flex"><i class="fi fi-rr-user"></i></span>
-                        <div class="form-floating flex-grow-1">
-                            <input type="text" class="form-control" id="login_input" name="login" placeholder="Nazwa użytkownika">
-                            <label for="login_input">Nazwa użytkownika</label>
-                        </div>
-                    </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text d-none d-md-flex"><i class="fi fi-rr-lock"></i></span>
-                        <div class="form-floating flex-grow-1">
-                            <input type="password" class="form-control" id="passwd_input" name="password" placeholder="Hasło">
-                            <label for="passwd_input">Hasło</label>
-                        </div>
-                    </div>
-                    <div class="mb-3 d-flex">
-                        <a href="reset-password">Zapomniałeś hasła?</a>
-                    </div>
-                    <div class="d-grid mb-3">
-                        <button type="submit" class="btn btn-outline-primary">
-                            Zaloguj się
-                        </button>
-                        <hr>
-                        <a href="register" type="button" class="btn btn-outline-primary">
-                            Zarejestruj się
-                        </a>
-                    </div>
-                  </form>
-            </div>
-
-        </div>
-    </div>
-</div>
