@@ -19,14 +19,6 @@
                 <hr>
 
                 <div class="input-group d-flex mb-3">
-                    <span class="input-group-text d-none d-md-flex"><i class="fi fi-rr-user"></i></span>
-                    <div class="form-floating flex-grow-1">
-                        <input type="text" class="form-control" id="login_input" name="login" placeholder="Nazwa użytkownika">
-                        <label for="login_input">Nazwa użytkownika</label>
-                    </div>
-                </div>
-
-                <div class="input-group d-flex mb-3">
                     <span class="input-group-text d-none d-md-flex"><i class="fi fi-rr-at"></i></span>
                     <div class="form-floating flex-grow-1">
                         <input type="email" class="form-control" id="email_input" name="email" placeholder="Email">
@@ -110,24 +102,6 @@
                     <div class="form-floating flex-grow-1">
                         <input type="text" class="form-control" id="street_input" name="street" placeholder="Ulica">
                         <label for="street_input">Ulica</label>
-                    </div>
-                </div>
-
-                <div class="d-flex gap-3">
-                    <div class="input-group d-flex mb-3">
-                        <span class="input-group-text d-none d-md-flex"><i class="fi fi-rr-home"></i></span>
-                        <div class="form-floating flex-grow-1">
-                            <input type="text" class="form-control" id="b_num_input" name="buildingNumber" placeholder="Numer domu">
-                            <label for="b_num_input">Numer domu</label>
-                        </div>
-                    </div>
-
-                    <div class="input-group d-flex mb-3">
-                        <span class="input-group-text d-none d-md-flex"><i class="fi fi-rr-home"></i></span>
-                        <div class="form-floating flex-grow-1">
-                            <input type="text" class="form-control" id="a_num_input" name="apartmentNumber" placeholder="Numer mieszkania">
-                            <label for="a_num_input">Numer mieszkania</label>
-                        </div>
                     </div>
                 </div>
 
