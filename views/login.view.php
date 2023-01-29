@@ -12,7 +12,7 @@
 
 <div class="container">
     
-    <div class="card my-3 mx-3 form-card">
+    <div class="card form-card">
         <div class="card-body d-flex">
             <div class="col-md-6 mx-auto d-flex">
                 <div class="mx-md-auto my-md-auto">

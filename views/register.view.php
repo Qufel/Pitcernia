@@ -11,7 +11,7 @@
 <?php require "partials/nav.php" ?>
 
 <div class="container">
-    <div class="card mx-auto mx-md-3 my-auto my-md-3 form-card">
+    <div class="card form-card">
         <div class="card-body d-flex">
             <div class="col-md-6">
                 <h3 class="card-title text-center">Zarejestruj się</h3>
@@ -51,7 +51,7 @@
                         <div class="input-group d-flex mb-3">
                             <span class="input-group-text d-none d-md-flex"><i class="fi fi-rr-user"></i></span>
                             <div class="form-floating flex-grow-1">
-                                <input type="text" class="form-control" id="fname_input" name="fname" placeholder="Imię" required>
+                                <input type="text" class="form-control" id="fname_input" name="name" placeholder="Imię" required>
                                 <label for="fname_input">Imię</label>
                             </div>
                         </div>
@@ -84,7 +84,7 @@
                         <div class="input-group d-flex mb-3">
                             <span class="input-group-text d-none d-md-flex"><i class="fi fi-rr-mailbox"></i></span>
                             <div class="form-floating flex-grow-1">
-                                <input type="text" class="form-control" id="p_code_input" name="postCode" placeholder="Kod pocztowy" required>
+                                <input type="text" class="form-control" id="p_code_input" name="post_code" placeholder="Kod pocztowy" required>
                                 <label for="p_code_input">Kod pocztowy</label>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
                     <div class="input-group d-flex mb-3">
                         <span class="input-group-text d-none d-md-flex"><i class="fi fi-rr-road"></i></span>
                         <div class="form-floating flex-grow-1">
-                            <input type="text" class="form-control" id="street_input" name="street" placeholder="Adres zamieszkania" required>
+                            <input type="text" class="form-control" id="street_input" name="address" placeholder="Adres zamieszkania" required>
                             <label for="street_input">Adres zamieszkania</label>
                         </div>
                     </div>
@@ -114,33 +114,10 @@
                         </div>
                     </div>
 
-
-                    <script>
-                        (function () {
-                            'use strict'
-
-                            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                            var forms = document.querySelectorAll('.needs-validation')
-                            
-                            // Loop over them and prevent submission
-                            Array.prototype.slice.call(forms)
-                                .forEach(function (form) {
-                                form.addEventListener('submit', function (event) {
-                                    if (!form.checkValidity()) {
-                                    event.preventDefault()
-                                    event.stopPropagation()
-                                    }
-                            
-                                    form.classList.add('was-validated')
-                                }, false)
-                            })
-                        })()
-                    </script>
-
                     <div class="d-grid mb-3">
-                        <!-- Przekieruj do verify.php (czy coś takiego) -->
                         <button type="submit" class="btn btn-dark">Zarejestruj się</button>
                     </div>
+                    <p>Masz już konto? <a href="login" class="text-dark">Zaloguj się</a></p>
 
                 </form>
                 </div>

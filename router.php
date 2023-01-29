@@ -1,5 +1,7 @@
 <?php
 
+$baseUri = '/pitcernia/';
+
 $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 
 /*
@@ -10,13 +12,15 @@ dlatego WAŻNE żeby folder z projektem nazywał sie u każdego tak samo!!!
 */
 
 $routes = [
-    '/pitcernia/' => 'controllers/home.php',
-    '/pitcernia/menu' => 'controllers/menu.php',
-    '/pitcernia/contact' => 'controllers/contact.php',
-    '/pitcernia/cart' => 'controllers/cart.php',
-    '/pitcernia/profile' => 'controllers/profile.php',
-    '/pitcernia/register' => 'controllers/register.php',
-    '/pitcernia/login' => 'controllers/login.php'
+    $baseUri => 'controllers/home.php',
+    $baseUri . 'menu' => 'controllers/menu.php',
+    $baseUri . 'contact' => 'controllers/contact.php',
+    $baseUri . 'cart' => 'controllers/cart.php',
+    $baseUri . 'profile' => 'controllers/profile.php',
+    $baseUri . 'register' => 'controllers/register.php',
+    $baseUri . 'verify' => 'controllers/verify.php',
+    $baseUri . 'login' => 'controllers/login.php',
+    $baseUri . 'confirm-verification' => 'controllers/confirm-verification.php'
 ];
 
 function RouteToController($uri, $routes){

@@ -11,8 +11,15 @@
 <?php require "partials/nav.php" ?>
 
 <div class="container">
-    <h4>Home</h4>
-    <?= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']?>
+    
+    <div class="card d-flex p-3 justify-content-center">
+        <h3 class="card-title text-center">Dziękujemy za dokonanie weryfikacji</h3>
+        <div class="card-body">
+            <p class="text-center">Dziękujemy za dokonanie weryfikacji w naszym serwsie. Teraz możesz korzystać ze wszystkich jego funkcji.</p>
+            <a href="./" class="btn btn-dark">Wróc do strony głównej</a>
+        </div>
+    </div>
+
 </div>
 
 </body>
