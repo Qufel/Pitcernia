@@ -20,15 +20,17 @@
                     </li>
                 </div>
                 <div class="d-md-flex col-lg-4 col-md-6 justify-content-end">
-                    <!--Domyślnie ukryte, aktywuje się po zalogowaniu (usuwanie klasy d-none)-->
-                    <li class="nav-item <?php if($_SERVER["REQUEST_URI"] === "/pitcernia/cart") {echo "active";} ?>">
+                    <li class="nav-item <?php 
+                    if($_SERVER["REQUEST_URI"] === "/pitcernia/cart") {echo "active";}
+                    if($_SESSION['user'] == "") {echo "d-none";} else {echo "d-block";}?>">
                         <a href="cart" class="nav-link">
                             <i class="fi fi-rr-shopping-cart"></i>
                             Koszyk
                         </a>
                     </li>
-                    <!--Domyślnie ukryte, aktywuje się po zalogowaniu (usuwanie klasy d-none)-->
-                    <li class="nav-item dropdown <?php if($_SERVER["REQUEST_URI"] === "/pitcernia/profile") {echo "active";} ?>">
+                    <li class="nav-item dropdown <?php 
+                    if($_SERVER["REQUEST_URI"] === "/pitcernia/profile") {echo "active";} 
+                    if($_SESSION['user'] == "") {echo "d-none";} else {echo "d-block";}?>">
                         <a href="#" class="dropdown-toggle nav-link" id="navbarUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fi fi-rr-user"></i>
                             Profil
@@ -41,7 +43,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="dropdown-item" role="button">
+                                <a href="log-out-user.php" class="dropdown-item" role="button">
                                     <i class="fi fi-rr-exit"></i>
                                     Wyloguj się
                                 </a>
@@ -51,7 +53,7 @@
                 </div>
             </ul>
     </div>
-    <a type="button" href="login" class="btn btn-dark">
+    <a type="button" href="login" class="btn btn-dark <?php if($_SESSION['user'] != "") {echo "d-none";} ?>">
         Zaloguj się
     </a>
     <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">

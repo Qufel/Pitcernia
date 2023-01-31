@@ -18,18 +18,18 @@
                 <div class="mx-md-auto my-md-auto">
                     <h3 class="card-title text-center ">Zaloguj się</h3>
                     <br>
-                    <form action="login" method="post">
+                    <form action="log-in-user.php" method="post">
                             <div class="mb-3 input-group d-flex">
                                 <span class="input-group-text d-none d-md-flex"><i class="fi fi-rr-at"></i></span>
                                 <div class="form-floating flex-grow-1">
-                                    <input type="email" class="form-control" id="login_input" name="login" placeholder="Email" required>
-                                    <label for="login_input">Email</label>
+                                    <input type="email" class="form-control" id="email_input" name="email" placeholder="Email" required>
+                                    <label for="email_input">Email</label>
                                 </div>
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text d-none d-md-flex"><i class="fi fi-rr-lock"></i></span>
                                 <div class="form-floating flex-grow-1">
-                                    <input type="password" class="form-control" id="passwd_input" name="password" placeholder="Hasło" required>
+                                    <input type="password" class="form-control" id="passwd_input" name="passwd" placeholder="Hasło" required>
                                     <label for="passwd_input">Hasło</label>
                                 </div>
                             </div>

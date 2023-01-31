@@ -12,7 +12,6 @@
 
 <div class="container">
     <h4>Home</h4>
-    <?= $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI']?>
 </div>
 
 </body>

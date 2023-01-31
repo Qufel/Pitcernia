@@ -16,7 +16,7 @@ class User{
     public function __construct($email, $passwd, $name, $surname, $phone, $city, $address, $post_code, $is_verified = 0, $is_admin = 0)
     {
         $this->email = $email;
-        $this->passwd = password_hash($passwd, PASSWORD_DEFAULT);
+        $this->passwd = $passwd;
         $this->name = $name;
         $this->surname = $surname;
         $this->phone = $phone;
@@ -29,27 +29,6 @@ class User{
     public function __toString()
     {
         return $this->email;
-    }
-
-    public function get_verification_code() : string{
-
-        $db = new Medoo(array(
-            'database_type' => 'mysql',
-            'database_name' => 'pitcernia',
-            'server' => $_SERVER['SERVER_NAME'],
-            'username' => 'root',
-            'password' => ''
-        ));
-
-        $code = $db->select(
-            'users',
-            'verification_code',
-            ['email' => $this->email]
-        )[0];
-
-        $db = null;
-
-        return $code;
     }
 
     public function send_verification_mail() : bool{
@@ -70,7 +49,8 @@ class User{
         $mail->SMTPSecure = 'tls'; //ssl
 
         //generowanie linku do weryfikacji
-        $url = $_SERVER['SERVER_NAME'] . '/pitcernia/' . "confirm-verification?email={$email}&code={$this->get_verification_code()}"; 
+        $v_code = UserFunctions::get_user_verification_code($this);
+        $url = $_SERVER['SERVER_NAME'] . '/pitcernia/' . "confirm-verification?email={$email}&code={$v_code}"; 
 
         $htmlContent = "
         <html>
@@ -105,16 +85,21 @@ class User{
 }
 
 final class UserFunctions{
+
+    private static $db_name = 'pitcernia';
+    private static $db_server = 'localhost';
+    private static $db_user = 'root';
+    private static $db_passwd = '';
+
     public static function register_user(User $user) : bool{
 
         $db = new Medoo(array(
             'database_type' => 'mysql',
-            'database_name' => 'pitcernia',
-            'server' => $_SERVER['SERVER_NAME'],
-            'username' => 'root',
-            'password' => ''
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
         ));
-
         
         $users = $db->select(
             'users',
@@ -160,13 +145,13 @@ final class UserFunctions{
 
         $db = new Medoo(array(
             'database_type' => 'mysql',
-            'database_name' => 'pitcernia',
-            'server' => $_SERVER['SERVER_NAME'],
-            'username' => 'root',
-            'password' => ''
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
         ));
 
-        if($code !== $user->get_verification_code()){
+        if($code !== UserFunctions::get_user_verification_code($user)){
             return false;
         }
 
@@ -188,17 +173,52 @@ final class UserFunctions{
 
         return true;
     }
-    public static function log_user(string $string, string $passwd){
-        //logowanie użytkownika
+    public static function log_in_user(string $email, string $passwd) : bool{
+
+        $user = self::get_user_by_email($email);
+
+        if($user === false){
+            //wrong email
+            echo 'email';
+            return false;
+        }
+
+        if(!password_verify($passwd, $user->passwd)){
+            //wrong password
+            echo $user->passwd . "<br>";
+            echo 'passwd';
+            return false;
+        }
+
+        session_start();
+
+        $_SESSION['user'] = json_encode($user); 
+
+        session_commit();
+
+        return true;
+
     }
-    public static function get_user_by_email(string $email) : User{
+
+    public static function log_out_user() : bool{
+
+        session_start();
+
+        unset($_SESSION['user']);
+
+        session_commit();
+
+        return true;
+    }
+
+    public static function get_user_by_email(string $email) : User {
 
         $db = new Medoo(array(
             'database_type' => 'mysql',
-            'database_name' => 'pitcernia',
-            'server' => $_SERVER['SERVER_NAME'],
-            'username' => 'root',
-            'password' => ''
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
         ));
 
         $user = $db->select(
@@ -218,6 +238,10 @@ final class UserFunctions{
             ['email' => $email]
         );
 
+        if(!$user){
+            return false;
+        }
+
         $db = null;
 
         return new User(
@@ -233,6 +257,27 @@ final class UserFunctions{
             $user[0]['is_admin']
         );
 
+    }
+
+    public static function get_user_verification_code(User $user) : string{
+
+        $db = new Medoo(array(
+            'database_type' => 'mysql',
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
+        ));
+
+        $code = $db->select(
+            'users',
+            'verification_code',
+            ['email' => $user->email]
+        )[0];
+
+        $db = null;
+
+        return $code;
     }
 
     private static function generte_verification_code() : string{

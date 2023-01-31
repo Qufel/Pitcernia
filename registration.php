@@ -2,11 +2,11 @@
 
 require 'user.functions.php';
 
-if (isset($_POST)) {
+if (isset($_POST) && $_POST) {
     
     $user = new User(
         $_POST['email'] ?? "",
-        $_POST['passwd'] ?? "",
+        password_hash($_POST['passwd'], PASSWORD_DEFAULT),
         $_POST['name'] ?? "",
         $_POST['surname'] ?? "",
         $_POST['phone'] ?? "",
