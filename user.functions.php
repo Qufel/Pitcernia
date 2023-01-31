@@ -175,6 +175,8 @@ final class UserFunctions{
     }
     public static function log_in_user(string $email, string $passwd) : bool{
 
+        session_start();
+
         $user = self::get_user_by_email($email);
 
         if($user === false){
@@ -190,11 +192,9 @@ final class UserFunctions{
             return false;
         }
 
-        session_start();
-
         $_SESSION['user'] = json_encode($user); 
 
-        session_commit();
+        session_write_close();
 
         return true;
 
@@ -206,7 +206,7 @@ final class UserFunctions{
 
         unset($_SESSION['user']);
 
-        session_commit();
+        session_write_close();
 
         return true;
     }

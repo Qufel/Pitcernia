@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-md navbar-light">
     <div class="container">
-        <a href="<?php echo "/pitcernia/" ?>" class="navbar-brand mb-0 h1">
+        <a href="/pitcernia/" class="navbar-brand mb-0 h1">
             <img src="assets/logo.svg" alt="" srcset="" style="height: 3rem;">
         </a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav w-100 d-flex">
                 <div class="d-md-flex col-lg-8 col-md-6">
                     <li class="nav-item <?php if($_SERVER["REQUEST_URI"] === "/pitcernia/menu") {echo "active";} ?>">
-                        <a href="menu" class="nav-link">
+                        <a href="/pitcernia/" class="nav-link">
                             <i class="fi fi-rr-pizza-slice"></i>
                             Menu
                         </a>
@@ -22,7 +22,10 @@
                 <div class="d-md-flex col-lg-4 col-md-6 justify-content-end">
                     <li class="nav-item <?php 
                     if($_SERVER["REQUEST_URI"] === "/pitcernia/cart") {echo "active";}
-                    if($_SESSION['user'] == "") {echo "d-none";} else {echo "d-block";}?>">
+                    session_start();
+                    if(!isset($_SESSION['user'])) { echo 'd-none'; } else {echo 'd-block'; }
+                    session_write_close();
+                    ?>">
                         <a href="cart" class="nav-link">
                             <i class="fi fi-rr-shopping-cart"></i>
                             Koszyk
@@ -30,7 +33,10 @@
                     </li>
                     <li class="nav-item dropdown <?php 
                     if($_SERVER["REQUEST_URI"] === "/pitcernia/profile") {echo "active";} 
-                    if($_SESSION['user'] == "") {echo "d-none";} else {echo "d-block";}?>">
+                    session_start();
+                    if(!isset($_SESSION['user'])) { echo 'd-none'; } else {echo 'd-block'; }
+                    session_write_close();
+                    ?>">
                         <a href="#" class="dropdown-toggle nav-link" id="navbarUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fi fi-rr-user"></i>
                             Profil
@@ -53,7 +59,11 @@
                 </div>
             </ul>
     </div>
-    <a type="button" href="login" class="btn btn-dark <?php if($_SESSION['user'] != "") {echo "d-none";} ?>">
+    <a type="button" href="login" class="btn btn-dark <?php 
+    session_start();
+    if(!isset($_SESSION['user'])) { echo 'd-block'; } else {echo 'd-none'; }
+    session_write_close();
+    ?>">
         Zaloguj się
     </a>
     <button type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler">

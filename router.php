@@ -12,8 +12,7 @@ dlatego WAŻNE żeby folder z projektem nazywał sie u każdego tak samo!!!
 */
 
 $routes = [
-    $baseUri => 'controllers/home.php',
-    $baseUri . 'menu' => 'controllers/menu.php',
+    $baseUri . '' => 'controllers/menu.php',
     $baseUri . 'contact' => 'controllers/contact.php',
     $baseUri . 'cart' => 'controllers/cart.php',
     $baseUri . 'profile' => 'controllers/profile.php',
