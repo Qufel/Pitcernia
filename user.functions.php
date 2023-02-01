@@ -114,8 +114,6 @@ final class UserFunctions{
             return false;
         }
 
-        $db->pdo->beginTransaction();
-
         $db->insert(
             'users',
             [
@@ -133,8 +131,6 @@ final class UserFunctions{
                 'is_admin' => $user->is_admin
             ]
         );
-
-        $db->pdo->commit();
 
         $db = null;
 
@@ -192,7 +188,7 @@ final class UserFunctions{
             return false;
         }
 
-        $_SESSION['user'] = json_encode($user); 
+        $_SESSION['user'] = json_encode((array)$user);
 
         session_write_close();
 
