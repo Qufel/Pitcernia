@@ -13,15 +13,23 @@
 <div class="container">
     <?php session_start(); 
     $user = json_decode($_SESSION['user']);
+    session_write_close();
     ?>
-    
     <div class="card">
         <div class="card-body">
             <h2>Witaj <?= $user->name ?></h2>
             <hr>
-            <h5>Twoje dane</h5>
+            <div class="row d-flex mb-3">
+                <div class="col-6 justify-content-start align-items-center d-flex"><h5 class="align-middle">Twoje dane</h5></div>
+                <div class="form-floating col-6 justify-content-end align-items-center d-flex <?php if(!isset($_COOKIE['edit'])) {echo 'd-block';} else {echo 'd-none';}?>">
+                    <form action="profile" method="get">
+                        <input type="hidden" name="edit" value="1">
+                        <button type="submit" class="btn btn-light align-middle"><i class="fi fi-rr-pencil"></i> Zmień dane</button>
+                    </form>
+                </div>
+            </div>
             <form action="#" method="post">
-                <div>
+                <div class="mb-3">
                     <table class="table table-hover table-bordered">
                         <tr class="table-dark">
                             <th class="col-md-3" >Dane kontaktowe</th>
@@ -29,23 +37,24 @@
                         </tr>
                         <tr class="table-light">
                             <th class="align-middle" scope="row">Imię</th>
-                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->name ?>" readonly></td>
+                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->name ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
                         </tr>
                         <tr class="table-light">
                             <th class="align-middle" scope="row">Nazwisko</th>
-                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->surname ?>" readonly></td>
+                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->surname ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
                         </tr>
                         <tr class="table-light">
                             <th class="align-middle" scope="row">Telefon</th>
-                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->phone ?>" readonly></td>
+                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->phone ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
                         </tr>
                         <tr class="table-light">
                             <th class="align-middle" scope="row">Email</th>
-                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->email ?>" readonly></td>
+                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->email ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
                         </tr>
                     </table>
                 </div>
-                <div class="rounded">
+                <br>
+                <div class="mb-3">
                     <table class="table table-hover table-bordered">
                         <tr class="table-dark">
                             <th class="col-md-3">Dane dostawy</th>
@@ -53,19 +62,21 @@
                         </tr>
                         <tr class="table-light">
                             <th class="align-middle" scope="row">Miasto</th>
-                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->city ?>" readonly></td>
+                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->city ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
                         </tr>
                         <tr class="table-light">
                             <th class="align-middle" scope="row">Kod pocztowy</th>
-                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->post_code ?>" readonly></td>
+                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->post_code ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
                         </tr>
                         <tr class="table-light">
                             <th class="align-middle" scope="row">Adres</th>
-                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->address ?>" readonly></td>
+                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->address ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
                         </tr>
                     </table>
                 </div>
-                <hr>
+                <button type="submit" class="btn btn-dark">Zapisz</button>
+            </form>
+            <hr>
                 <h5>Zmień hasło</h5>
                 <div class="gap-3">
                     <form action="#" method="post">
@@ -80,11 +91,8 @@
                         </div>
                     </form>
                 </div>
-            </form>
         </div>
     </div>
-
-    <?php session_write_close(); ?>
 </div>
 
 </body>
