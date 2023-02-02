@@ -20,15 +20,20 @@
             <h2>Witaj <?= $user->name ?></h2>
             <hr>
             <div class="row d-flex mb-3">
-                <div class="col-6 justify-content-start align-items-center d-flex"><h5 class="align-middle">Twoje dane</h5></div>
-                <div class="form-floating col-6 justify-content-end align-items-center d-flex <?php if(!isset($_COOKIE['edit'])) {echo 'd-block';} else {echo 'd-none';}?>">
-                    <form action="profile" method="get">
-                        <input type="hidden" name="edit" value="1">
-                        <button type="submit" class="btn btn-light align-middle"><i class="fi fi-rr-pencil"></i> Zmień dane</button>
-                    </form>
+                <div class="col-6 justify-content-start align-items-center d-flex">
+                    <h5 class="my-auto">Twoje dane</h5>
+                </div>
+                <div class="form-floating col-6 justify-content-end d-flex my-auto <?php if(!isset($_COOKIE['edit'])) {echo 'd-block';} else {echo 'd-none';}?>">
+                    <button type="button" class="btn btn-light align-middle" id="edit-user-btn"><i class="fi fi-rr-pencil"></i> Zmień dane</button>
+                    <script>
+                        document.getElementById("edit-user-btn").onclick = function(){
+                            document.cookie = "edit=1";
+                            location.reload();
+                        }
+                    </script>
                 </div>
             </div>
-            <form action="#" method="post">
+            <form action="edit-user-data.php" method="post">
                 <div class="mb-3">
                     <table class="table table-hover table-bordered">
                         <tr class="table-dark">
@@ -37,19 +42,19 @@
                         </tr>
                         <tr class="table-light">
                             <th class="align-middle" scope="row">Imię</th>
-                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->name ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
+                            <td><input type="text" name="name" class="form-control-plaintext" value="<?= $user->name ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
                         </tr>
                         <tr class="table-light">
                             <th class="align-middle" scope="row">Nazwisko</th>
-                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->surname ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
+                            <td><input type="text" name="surname" class="form-control-plaintext" value="<?= $user->surname ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
                         </tr>
                         <tr class="table-light">
                             <th class="align-middle" scope="row">Telefon</th>
-                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->phone ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
+                            <td><input type="text" name="phone" class="form-control-plaintext" value="<?= $user->phone ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
                         </tr>
                         <tr class="table-light">
                             <th class="align-middle" scope="row">Email</th>
-                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->email ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
+                            <td><input type="text" name="email" class="form-control-plaintext" value="<?= $user->email ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
                         </tr>
                     </table>
                 </div>
@@ -62,19 +67,19 @@
                         </tr>
                         <tr class="table-light">
                             <th class="align-middle" scope="row">Miasto</th>
-                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->city ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
+                            <td><input type="text" name="city" class="form-control-plaintext" value="<?= $user->city ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
                         </tr>
                         <tr class="table-light">
                             <th class="align-middle" scope="row">Kod pocztowy</th>
-                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->post_code ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
+                            <td><input type="text" name="post_code" class="form-control-plaintext" value="<?= $user->post_code ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
                         </tr>
                         <tr class="table-light">
                             <th class="align-middle" scope="row">Adres</th>
-                            <td><input type="text" name="" class="form-control-plaintext" value="<?= $user->address ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
+                            <td><input type="text" name="address" class="form-control-plaintext" value="<?= $user->address ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
                         </tr>
                     </table>
                 </div>
-                <button type="submit" class="btn btn-dark">Zapisz</button>
+                <button type="submit" class="btn btn-dark <?php if(!isset($_COOKIE['edit'])) {echo 'd-none';} else {echo 'd-block';}?>">Zapisz</button>
             </form>
             <hr>
                 <h5>Zmień hasło</h5>

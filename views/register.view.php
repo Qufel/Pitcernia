@@ -16,9 +16,7 @@
             <div class="col-md-6">
                 <h3 class="card-title text-center">Zarejestruj się</h3>
                 <form action="registration.php" method="post" class="needs-validation" novalidate>
-
                     <br>
-
                     <div class="input-group d-flex mb-3">
                         <span class="input-group-text d-none d-md-flex"><i class="fi fi-rr-at"></i></span>
                         <div class="form-floating flex-grow-1">
