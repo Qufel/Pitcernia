@@ -4,6 +4,7 @@ require 'user.functions.php';
 
 $oldUser = UserFunctions::get_user_from_session();
 if($_POST){
+
     $newUser = new User(
       $_POST['email'],
       $oldUser->passwd,
@@ -13,13 +14,14 @@ if($_POST){
       $_POST['city'],
       $_POST['address'],
       $_POST['post_code'],
-      $oldUser->email !== $_POST['email'] ? 1 : 0
+      $oldUser->email === $_POST['email'] ? 1 : 0
     );
 
-    UserFunctions::edit_user_data($oldUser, $newUser);
+    $res = UserFunctions::edit_user_data($oldUser, $newUser);
 }
 
 setcookie('edit','',time()-1);
 unset($_COOKIE['edit']);
 
-header("Location:profile");
+$s = json_encode($res->status);
+header("Location:profile?s=$s&m=$res->message");

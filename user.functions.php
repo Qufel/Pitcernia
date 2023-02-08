@@ -31,7 +31,7 @@ class User{
         return $this->email;
     }
 
-    public function send_verification_mail() : bool{
+    public function send_verification_mail() : bool {
 
         $mail = new PHPMailer();
         $email = $this->email;
@@ -106,7 +106,7 @@ final class UserFunctions{
     private static $db_user = 'root';
     private static $db_passwd = '';
 
-    public static function register_user(User $user) : UserFunctionStatus{
+    public static function register_user(User $user) : UserFunctionStatus {
 
         $db = new Medoo(array(
             'database_type' => 'mysql',
@@ -153,7 +153,7 @@ final class UserFunctions{
         return new UserFunctionStatus(true, "Zarejestrowano nowego użytkownika.");
 
     }
-    public static function verify_user(User $user, string $code) : UserFunctionStatus{
+    public static function verify_user(User $user, string $code) : UserFunctionStatus {
 
         $db = new Medoo(array(
             'database_type' => 'mysql',
@@ -182,7 +182,7 @@ final class UserFunctions{
 
         return new UserFunctionStatus(true, "Email zweryfikowany poprawnie.");
     }
-    public static function log_in_user(string $email, string $passwd) : UserFunctionStatus{
+    public static function log_in_user(string $email, string $passwd) : UserFunctionStatus  {
 
         session_start();
 
@@ -239,8 +239,7 @@ final class UserFunctions{
 
         return $user;
     }
-    public static function edit_user_data(User $oldUser, User $newUser) : UserFunctionStatus
-    {
+    public static function edit_user_data(User $oldUser, User $newUser) : UserFunctionStatus {
 
         $db = new Medoo(array(
             'database_type' => 'mysql',
@@ -261,7 +260,7 @@ final class UserFunctions{
             if($exist_check){
                 unset($db);
                 return new UserFunctionStatus(false, "Podany email już jest zarejestrowany.");
-            }
+            } 
         }
 
         $db->update(
@@ -272,7 +271,8 @@ final class UserFunctions{
                 'surname' => $newUser->surname,
                 'city' => $newUser->city,
                 'address' => $newUser->address,
-                'post_code' => $newUser->post_code
+                'post_code' => $newUser->post_code,
+                'is_verified' => $oldUser->email === $newUser->email ? 1 : 0
             ],
             [
                 'email' => $oldUser->email
@@ -287,8 +287,48 @@ final class UserFunctions{
 
         return new UserFunctionStatus(true, "Poprawna edycja danych użytkownika.");
     }
+    public static function change_user_passwd(string $email, string $oldPasswd, string $oldPasswdR, string $newPasswd) : UserFunctionStatus {
 
-    public static function get_user_by_email(string $email) : User {
+        $db = new Medoo(array(
+            'database_type' => 'mysql',
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
+        ));
+
+        $res = $db->select(
+            'users',
+            'passwd',
+            [
+                'email' => $email
+            ]
+        );
+
+        if($res['passwd'] != $oldPasswd){
+            return new UserFunctionStatus(false, "Złe hasło.");
+        }
+
+        if($oldPasswd != $oldPasswdR){
+            return new UserFunctionStatus(false, "Hasła się nie zgadazają.");
+        }
+
+        $db->update(
+            'users',
+            [
+                'passwd' => password_hash($newPasswd, PASSWORD_DEFAULT)
+            ],
+            [
+                'email' => $email
+            ]
+        );
+
+        $db = null;
+
+        return new UserFunctionStatus(true, "Hasła zostało zmienione poprawnie.");
+    }
+
+    public static function get_user_by_email(string $email) {
 
         $db = new Medoo(array(
             'database_type' => 'mysql',
@@ -316,7 +356,7 @@ final class UserFunctions{
         );
 
         if(!$user){
-            return new User("","","","","","","","");
+            return new UserFunctionStatus(false, "Nie znaleziono użytkownika o podanym emailu.");
         }
 
         unset($db);
