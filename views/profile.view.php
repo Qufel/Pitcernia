@@ -1,3 +1,8 @@
+<?php session_start(); 
+    $user = json_decode($_SESSION['user']);
+    session_write_close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,10 +16,6 @@
 <?php require "partials/nav.php" ?>
 
 <div class="container">
-    <?php session_start(); 
-    $user = json_decode($_SESSION['user']);
-    session_write_close();
-    ?>
     <div class="card">
         <div class="card-body">
             <h2>Witaj <?= $user->name ?></h2>
@@ -45,10 +46,6 @@
             <form action="edit-user-data.php" method="post">
                 <div class="mb-3">
                     <table class="table table-hover table-bordered">
-                        <tr class="table-dark">
-                            <th class="col-md-3" >Dane kontaktowe</th>
-                            <th></th>
-                        </tr>
                         <tr class="table-light">
                             <th class="align-middle" scope="row">Imię</th>
                             <td><input type="text" name="name" class="form-control-plaintext" value="<?= $user->name ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
@@ -64,27 +61,6 @@
                         <tr class="table-light">
                             <th class="align-middle" scope="row">Email</th>
                             <td><input type="text" name="email" class="form-control-plaintext" value="<?= $user->email ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
-                        </tr>
-                    </table>
-                </div>
-                <br>
-                <div class="mb-3">
-                    <table class="table table-hover table-bordered">
-                        <tr class="table-dark">
-                            <th class="col-md-3">Dane dostawy</th>
-                            <th></th>
-                        </tr>
-                        <tr class="table-light">
-                            <th class="align-middle" scope="row">Miasto</th>
-                            <td><input type="text" name="city" class="form-control-plaintext" value="<?= $user->city ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
-                        </tr>
-                        <tr class="table-light">
-                            <th class="align-middle" scope="row">Kod pocztowy</th>
-                            <td><input type="text" name="post_code" class="form-control-plaintext" value="<?= $user->post_code ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
-                        </tr>
-                        <tr class="table-light">
-                            <th class="align-middle" scope="row">Adres</th>
-                            <td><input type="text" name="address" class="form-control-plaintext" value="<?= $user->address ?>" <?php if(!isset($_COOKIE['edit'])) {echo 'readonly';}?>></td>
                         </tr>
                     </table>
                 </div>

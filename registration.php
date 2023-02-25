@@ -9,15 +9,14 @@ if (isset($_POST) && $_POST) {
         password_hash($_POST['passwd'], PASSWORD_DEFAULT),
         $_POST['name'] ?? "",
         $_POST['surname'] ?? "",
-        $_POST['phone'] ?? "",
-        $_POST['city'] ?? "",
-        $_POST['address'] ?? "",
-        $_POST['post_code'] ?? ""
+        $_POST['phone'] ?? ""
     );
 
-    if(UserFunctions::register_user($user)){
+    $res = UserFunctions::register_user($user);
+    $s = json_encode($res->status);
+    if($res->status){
         header("Location:verify?email={$user->email}");
     }else{
-        header("Location:register");
+        header("Location:register?s={$s}&m={$res->message}");
     }
 }

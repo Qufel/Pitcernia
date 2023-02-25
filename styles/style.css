@@ -1,0 +1,27 @@
+:root {
+	--pizza-card-width: 20rem;
+}
+
+.content-holder {
+	min-height: calc(80vh - 4rem);
+}
+
+.box {
+	min-width: 30rem;
+	min-height: 30rem;
+}
+
+.pizza-grid {
+	display: grid;
+	gap: 2rem 2rem;
+	grid-template-columns: repeat(auto-fill, minmax(var(--pizza-card-width), 1fr));
+}
+
+.pizza-card {
+	min-width: var(--pizza-card-width);
+	border-radius: 1rem;
+}
+
+.filter {
+	min-width: minmax(50rem, 80vw);
+}

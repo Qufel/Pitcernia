@@ -3,9 +3,11 @@
 require 'user.functions.php';
 
 if($_POST){
-    if(UserFunctions::log_in_user($_POST['email'], $_POST['passwd'])){
+    $res = UserFunctions::log_in_user($_POST['email'], $_POST['passwd']);
+    $s = json_encode($res->status);
+    if($res->status){
         header("Location:./");
     }else{
-        header("Location:login");
+        header("Location:login?s={$s}&m={$res->message}");
     }
 }

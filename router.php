@@ -19,7 +19,9 @@ $routes = [
     $baseUri . 'register' => 'controllers/register.php',
     $baseUri . 'verify' => 'controllers/verify.php',
     $baseUri . 'login' => 'controllers/login.php',
-    $baseUri . 'confirm-verification' => 'controllers/confirm-verification.php'
+    $baseUri . 'confirm-verification' => 'controllers/confirm-verification.php',
+    $baseUri . 'restore-password' => 'controllers/restore-password.php',
+    $baseUri . 'forgot-password' => 'controllers/forgot-password.php'
 ];
 
 function RouteToController($uri, $routes){
