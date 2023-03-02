@@ -83,14 +83,6 @@
 	<script src="./js/multi-range.js"></script>
 	<script src="./js/filter.js"></script>
 
-
-
-	<?php require "partials/footer.php"; ?>
-
-
-
 </body>
-
-
 
 </html>
