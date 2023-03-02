@@ -22,7 +22,6 @@ priceInput.forEach(input => {
                 let left = (minVal / rangeInput[0].max) * 100;
                 progress.style.left = left + "%";
 
-                
             }else{
                 
                 rangeInput[1].value = maxVal;
