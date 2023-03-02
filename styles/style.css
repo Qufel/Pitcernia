@@ -3,13 +3,20 @@
 }
 
 body {
+
 	background-color: var(--bs-white);
 	background: no-repeat url(../assets/backgrounds/waves-top.svg);
 }
 
 footer {
-	background-color: var(--bs-secondary);
-	background: no-repeat url(../assets/backgrounds/footer-bg.svg);
+	position: absolute;
+	bottom: 0;
+
+    width: 100%;
+    height: 6rem;
+	
+    background: no-repeat url(../assets/backgrounds/footer-bg.png);
+
 }
 
 nav {
@@ -47,6 +54,8 @@ nav {
 }
 
 .pizza-grid {
+	min-height: calc(80vh - 10rem);
+
 	display: grid;
 	gap: 2rem 2rem;
 	grid-template-columns: repeat(auto-fill, minmax(var(--pizza-card-width), 1fr));
