@@ -66,6 +66,11 @@ nav {
 	border-radius: 1rem;
 }
 
+.pizza-image{
+	width: minmax(var(--pizza-card-width), 1fr)!important;
+	height: minmax(var(--pizza-card-width), 1fr)!important;
+}
+
 .filter {
 	min-width: minmax(50rem, 80vw);
 }
@@ -152,4 +157,10 @@ nav {
 	color: var(--bs-light);
 
 	border-radius: 0.5rem;
+}
+
+.error-box {
+	border-radius: 0.5rem;
+
+	font-weight: bold;
 }

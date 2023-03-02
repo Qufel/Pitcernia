@@ -1,5 +1,6 @@
 <?php session_start(); 
-    $user = json_decode($_SESSION['user']);
+    require_once "user.functions.php";
+    $user = UserFunctions::get_user_by_email(json_decode($_SESSION['user'])->email);
     session_write_close();
 ?>
 
@@ -22,7 +23,7 @@
                 <p>Aby móc skorzystać ze wszystkich funkcji naszej strony musisz zweryfikować swoje konto.</p>
                 <form action="send-verification.php" method="get">
                     <input type="hidden" name="email" value="<?=$user->email ?>">
-                    <button class="btn btn-dark <?= $user->is_verified == 0 ? '' : 'disabled'?>" type="submit">Wyślij link weryfikacyjny</button>
+                    <button class="btn btn-primary <?= $user->is_verified == 0 ? '' : 'disabled'?>" type="submit">Wyślij link weryfikacyjny</button>
                 </form>
             </div>
             <hr>
@@ -31,7 +32,7 @@
                     <h5 class="my-auto">Twoje dane</h5>
                 </div>
                 <div class="form-floating col-6 justify-content-end d-flex my-auto <?php if(!isset($_COOKIE['edit'])) {echo 'd-block';} else {echo 'd-none';}?>">
-                    <button type="button" class="btn btn-light align-middle" id="edit-user-btn"><i class="fi fi-rr-pencil"></i> Zmień dane</button>
+                    <button type="button" class="btn btn-primary align-middle" id="edit-user-btn"><i class="bi bi-pencil-square"></i> Zmień dane</button>
                 </div>
             </div>
             <form action="edit-user-data.php" method="post">
@@ -56,8 +57,11 @@
                     </table>
                 </div>
                 <div class="d-flex gap-2">
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#saveChangesModal" class="btn btn-dark <?php if(!isset($_COOKIE['edit'])) {echo 'd-none';} else {echo 'd-block';}?>">Zapisz</button>
-                    <button type="reset" id="reset_edit_form" class="btn btn-dark <?php if(!isset($_COOKIE['edit'])) {echo 'd-none';} else {echo 'd-block';}?>">Anuluj</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#saveChangesModal" class="btn btn-primary <?php if(!isset($_COOKIE['edit'])) {echo 'd-none';} else {echo 'd-block';}?>"><i class="bi bi-check-lg"></i> Zapisz</button>
+                    <button type="reset" id="reset_edit_form" class="btn btn-primary <?php if(!isset($_COOKIE['edit'])) {echo 'd-none';} else {echo 'd-block';}?>"><i class="bi bi-x-lg"></i> Anuluj</button>
+                </div>
+                <div id="form-error-box" class="text-danger <?php if(isset($_GET['s'])) { if($_GET['s'] = "false") {echo '';} else {echo 'd-none';}} else {echo 'd-none';}?>">
+                   <p id="form-error-text"> <span class="badge bg-danger">!</span> <?php if(isset($_GET['m'])) {echo $_GET['m']; }?></p>
                 </div>
                 <div class="modal" id="saveChangesModal" tabindex="1">
                     <div class="modal-dialog">
@@ -70,7 +74,7 @@
                                 Czy jesteś pewien, że chcesz zapisać dokonane zmiany?
                             </div>
                             <div class="modal-footer d-flex justify-content-start">
-                                <button type="submit" class="btn btn-success">Zapisz zmiany</button>
+                                <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
                             </div>
                         </div>
                     </div>
@@ -98,7 +102,7 @@
                             <label for="old_passwd_repeat">Podaj nowe hasło</label>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#changePasswdModal">Zmień hasło</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#changePasswdModal">Zmień hasło</button>
                     <div class="modal" id="changePasswdModal" tabindex="1">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -110,7 +114,7 @@
                                     Czy jesteś pewien, że chcesz zmienić swoje hasło?
                                 </div>
                                 <div class="modal-footer d-flex justify-content-start">
-                                    <button type="submit" class="btn btn-success">Zmień hasło</button>
+                                    <button type="submit" class="btn btn-primary">Zmień hasło</button>
                                 </div>
                             </div>
                         </div>

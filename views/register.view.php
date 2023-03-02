@@ -7,12 +7,12 @@
 
 <?php require "partials/nav.php" ?>
 
-<div class="container content-holder d-flex justify-content-center">
+<div class="container content-holder d-flex justify-content-center flex-column">
     <div class="card form-card col-11 col-md-10 col-lg-8 col-xl-6 my-auto mx-auto">
         <div class="card-body">
             <div class="my-auto mx-auto p-3">
                 <h3 class="card-title text-center">Zarejestruj się</h3>
-                <form action="registration.php" method="post" class="needs-validation" novalidate>
+                <form action="registration.php" method="post" class="needs-validation">
                     <br>
                     
                     <div class="d-flex gap-3">
@@ -61,6 +61,10 @@
                         </div>
                     </div>
 
+                    <div id="passwd-error-box" class="text-danger d-none">
+                        <p><span class="badge bg-danger">!</span> <span id="passwd-error-text"></span></p>
+                    </div>
+
                     <div class="mb-3">
                         <input type="checkbox" class="form-check-input" name="terms" id="terms_input" required>
                         <label for="terms_input" class="form-check-label">Zapoznałem(am) się i akceptuje <a href="terms" class="text-dark">Regulamin</a></label>
@@ -70,15 +74,23 @@
                     </div>
 
                     <div class="d-grid mb-3">
-                        <button type="submit" class="btn btn-dark">Zarejestruj się</button>
+                        <button type="submit" class="btn btn-primary">Zarejestruj się</button>
                     </div>
+
+                    <div id="form-error-box" class="text-danger <?php if(isset($_GET['s'])) { if($_GET['s'] = "false") {echo '';} else {echo 'd-none';}} else {echo 'd-none';}?>">
+                       <p id="form-error-text"> <span class="badge bg-danger">!</span> <?php if(isset($_GET['m'])) {echo $_GET['m']; }?></p>
+                    </div>
+
                     <p>Masz już konto? <a href="login" class="text-dark">Zaloguj się</a></p>
 
                 </form>
                 </div>
         </div>
     </div>
+
 </div>
+
+<script src="./js/validation.js"></script>
 
 </body>
 </html>

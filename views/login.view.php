@@ -37,6 +37,11 @@
                                     <i class="bi bi-box-arrow-in-right"></i>
                                     <span>Zaloguj się</span>
                                 </button>
+
+                                <div id="form-error-box" class="text-danger <?php if(isset($_GET['s'])) { if($_GET['s'] = "false") {echo '';} else {echo 'd-none';}} else {echo 'd-none';}?>">
+                                   <p id="form-error-text"> <span class="badge bg-danger">!</span> <?php if(isset($_GET['m'])) {echo $_GET['m']; }?></p>
+                                </div>
+
                                 <p class="text-wrap">Nie masz jeszcze konta?
                                     <a href="register" class="link-primary text-dark">
                                         Zarejestruj się

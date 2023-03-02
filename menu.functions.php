@@ -72,7 +72,7 @@ final class MenuFunctions
         $pizzas = array();
 
         foreach ($pizzasDb as $pizza) {
-            $pizzas[] = new Pizza($pizza['id'], $pizza['name'], $pizza['size'], $pizza['price'], $pizza['toppings'], $pizza['img_src']);
+            $pizzas[] = new Pizza($pizza['id'], $pizza['name'], $pizza['size'], $pizza['price'], self::get_toppings($pizza['toppings']), $pizza['img_src']);
         }
 
         return $pizzas;
@@ -142,10 +142,6 @@ final class MenuFunctions
         );
 
         unset($db);
-
-        foreach ($toppings as $k => $t) {
-            $toppings[$k] = $t['topping'];
-        }
 
         return $toppings;
     }

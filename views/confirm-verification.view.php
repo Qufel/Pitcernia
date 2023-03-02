@@ -12,7 +12,7 @@
             <h3 class="card-title text-center">Dziękujemy za dokonanie weryfikacji</h3>
             <div class="card-body d-flex flex-column align-items-center">
                 <p class="text-center">Dziękujemy za dokonanie weryfikacji w naszym serwsie. Teraz możesz korzystać ze wszystkich jego funkcji.</p>
-                <a href="./" class="btn btn-dark">Wróc do strony głównej</a>
+                <a href="./" class="btn btn-primary">Wróc do strony głównej</a>
             </div>
         </div>
     </div>

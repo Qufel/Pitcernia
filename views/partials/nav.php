@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-md sticky-top">
     <div class="container d-flex justify-content-md-start justify-content-end" id="navbar-container">
         <a href="/pitcernia/" class="navbar-brand mb-0 h1 order-md-0 order-1">
-            <img src="assets/logo.png" alt="" srcset="" style="height: 3rem;">
+            <img src="assets/logo.webp" alt="" srcset="" style="height: 3rem;">
         </a>
         <div class="collapse navbar-collapse order-md-1 order-0" id="navbarNav">
             <ul class="navbar-nav w-100 d-flex">

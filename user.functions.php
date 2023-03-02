@@ -120,7 +120,6 @@ final class UserFunctions {
         if($users){
             //Jeśli tak zakończ rejestracje z niepowodzeniem
             unset($db);
-            exit(json_encode($users));
             return new UserFunctionStatus(false, "Konto pod tym adresem jest już zarejestrowane.");
         }
 
@@ -181,14 +180,9 @@ final class UserFunctions {
 
         $user = self::get_user_by_email($email);
 
-        if($user === false){
+        if($user === false || !password_verify($passwd, $user->passwd)){
             //wrong email
-            return new UserFunctionStatus(false, "Zły adres email.");
-        }
-
-        if(!password_verify($passwd, $user->passwd)){
-            //wrong password
-            return new UserFunctionStatus(false, "Złe hasło.");
+            return new UserFunctionStatus(false, "Zły adres email lub hasło.");
         }
 
         $_SESSION['user'] = json_encode((array)$user);

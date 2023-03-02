@@ -24,6 +24,9 @@ const sizeRadios = document.querySelectorAll(".size-check");
 const minInput = document.querySelector(".input-min");
 const maxInput = document.querySelector(".input-max");
 
+const minRange = document.querySelector(".range-min");
+const maxRange = document.querySelector(".range-max");
+
 ingridientsCheckboxes.forEach((checkbox) => {
     checkbox.addEventListener("input",filter);
 });
@@ -35,9 +38,12 @@ sizeRadios.forEach((radio) => {
 minInput.addEventListener("change",filter);
 maxInput.addEventListener("change",filter);
 
+minRange.addEventListener("change",filter);
+maxRange.addEventListener("change",filter);
+
 function filter(e) {
     
-    let ingridients = [];
+    var ingridients = [];
 
     ingridientsCheckboxes.forEach((checkbox) => {
         if(checkbox.checked){
@@ -45,7 +51,7 @@ function filter(e) {
         }
     });
 
-    let size = 0;
+    var size = 0;
     
     sizeRadios.forEach((radio) => {
         if(radio.checked){
@@ -53,8 +59,8 @@ function filter(e) {
         }
     });
 
-    let minPrice = minInput.value;
-    let maxPrice = maxInput.value;
+    let minPrice = Number(minInput.value);
+    let maxPrice = Number(maxInput.value);
 
     pizzasToDisplay = filterPizzas(ingridients,size,minPrice,maxPrice);
 
@@ -63,8 +69,8 @@ function filter(e) {
 function filterPizzas(ingridients,size,min,max) {
 
     let matchingToppings = pizzas.filter((pizza) => {
-        toppings = pizza.toppings.split(',');
-        return ingridients.every(i => toppings.includes(i));
+        ids = pizza.toppings.map(t => t.id);
+        return ingridients.every(i => ids.includes(Number(i)));
     });
     let matchingSize = pizzas.filter((pizza) => {
         return pizza.size == size;
@@ -75,8 +81,6 @@ function filterPizzas(ingridients,size,min,max) {
 
     let matching = commonElementsOfArray(matchingToppings,matchingPrice,matchingSize);
 
-    console.log(min,max);
-
     document.querySelector(".found-count").innerHTML = matching.length;
 
     return matching;
@@ -85,7 +89,6 @@ function filterPizzas(ingridients,size,min,max) {
 
 searchBtn = document.querySelector("#search");
 searchBtn.addEventListener("click", () => {
-    console.log(pizzasToDisplay);
     displayPizza(pizzasToDisplay);
 });
 
@@ -101,7 +104,7 @@ function displayPizza(p = []) {
         pizzaGrid.innerHTML +=
         `
         <div class="pizza-card card bg-light text-dark">
-			<img src="./assets/${element.img_src}" alt="Zdjęcie pizzy ${element.name}" class="card-img-top">
+			<img src="./assets/${element.img_src}" alt="Zdjęcie pizzy ${element.name}" class="card-img-top pizza-image">
 			<div class="card-body d-flex flex-column">
 				<div class="card-title">
 					<div class="d-inline-flex align-items-center w-100">
@@ -113,9 +116,9 @@ function displayPizza(p = []) {
 				</div>
 				<div class="align-middle">
 					<h6>Składniki</h6>
-					<p></p>
+					<p>${element.toppings.map(t => t.topping).join(', ')}</p>
                     <h6>Rozmiar</h6>
-					<p>${element.size}</p>
+					<p>${element.size} cm</p>
 				</div>
 				<div class="d-inline-flex">
 					<button class="btn btn-primary fw-bold">Zamów</button>
