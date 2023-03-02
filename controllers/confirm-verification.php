@@ -1,18 +1,22 @@
 <?php
 require 'user.functions.php';
 
-$user = UserFunctions::get_user_by_email($_GET['email']);
-$code = $_GET['code'];
+if (isset($_GET['email'], $_GET['code'])) {
+    $user = UserFunctions::get_user_by_email($_GET['email']);
+    $code = $_GET['code'];
 
-if(!$user->status){
-    header("Location:confirm-verification?s={$s}&m={$res->message}");
+    if ($user instanceof UserFunctionStatus) {
+        if (!$user->status) {
+            $s = json_encode($user->status);
+            exit();
+        }
+    } else {
+        $res = UserFunctions::verify_user($user, $code);
+        $s = json_encode($res->status);
+
+        header("Location:confirm-verification?s={$s}&m={$res->message}");
+        exit();
+    }
 }
 
-$res = UserFunctions::verify_user($user, $code);
-$s = json_encode($res->status);
-
-if(!$res->status){
-    header("Location:confirm-verification?s={$s}&m={$res->message}");
-}
-
-require 'views/confirm-verification.view.php';
+require_once 'views/confirm-verification.view.php';

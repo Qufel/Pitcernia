@@ -15,4 +15,4 @@ if(isset($_POST['email'])){
     
 }
 
-require 'views/forgot-password.view.php';
+require_once 'views/forgot-password.view.php';

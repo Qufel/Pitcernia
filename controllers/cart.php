@@ -1,3 +1,3 @@
 <?php
 
-require "views/cart.view.php";
+require_once "views/cart.view.php";

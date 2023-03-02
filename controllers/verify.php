@@ -1,4 +1,4 @@
 <?php
 
-require 'views/verify.view.php';
+require_once 'views/verify.view.php';
 

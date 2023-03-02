@@ -399,7 +399,7 @@ final class UserFunctions {
         return new UserFunctionStatus(true, "Hasło zresetowane poprawnie.");
     }
 
-    public static function get_user_by_email(string $email) {
+    public static function get_user_by_email($email) {
 
         $db = new Medoo(array(
             'database_type' => 'mysql',

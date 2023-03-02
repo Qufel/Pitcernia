@@ -1,3 +1,3 @@
 <?php
 
-require "views/register.view.php";
+require_once "views/register.view.php";

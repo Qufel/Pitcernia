@@ -16,4 +16,4 @@ if(isset($_POST['passwd']) && isset($_POST['em'])){
 
 
 
-require 'views/restore-password.view.php';
+require_once 'views/restore-password.view.php';

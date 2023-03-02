@@ -2,6 +2,41 @@
 	--pizza-card-width: 20rem;
 }
 
+body {
+	background-color: var(--bs-white);
+	background: no-repeat url(../assets/backgrounds/waves-top.svg);
+}
+
+footer {
+	background-color: var(--bs-secondary);
+	background: no-repeat url(../assets/backgrounds/footer-bg.svg);
+}
+
+nav {
+	min-height: 6rem;
+	background: no-repeat url(../assets/backgrounds/nav-bg.svg);
+}
+
+.navbar-shown {
+	display: flex;
+	padding-bottom: 0.5rem;
+
+	background-color: var(--bs-secondary);
+	border-radius: 1rem;
+}
+
+.navbar-shown .navbar-collapse .nav-item {
+	margin-top: 0.5rem;
+}
+
+.navbar-shown .navbar-collapse .user-nav {
+	margin-bottom: 0.5rem;
+}
+
+.nav-btn {
+	min-width: 6rem;
+}
+
 .content-holder {
 	min-height: calc(80vh - 4rem);
 }
@@ -24,4 +59,88 @@
 
 .filter {
 	min-width: minmax(50rem, 80vw);
+}
+
+.price-input .field {
+	height: 3rem;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.price-input input {
+	font-size: 19px;
+	text-align: center;
+	outline: none;
+	-moz-appearance: none;
+}
+
+.price-input [type="number"]::-webkit-outer-spin-button,
+.price-input [type="number"]::-webkit-inner-spin-button{
+	-webkit-appearance: none;
+}
+
+.price-input .separator {
+	width: 3rem;
+	display: flex;
+	font-size: 19px;
+	align-items: center;
+	justify-content: center;
+}
+
+.slider {
+	height: 0.5rem;
+	border-radius: 0.5rem;
+	background: #ddd;
+
+	position: relative;
+}
+
+.slider .progress {
+	height: 0.5rem;
+	border-radius: 0.5rem;
+	background: var(--bs-primary);
+	
+
+	left: 0%;
+	right: 0%;
+	position: absolute;
+}
+
+.range-input {
+	position: relative;
+}
+
+.range-input input {
+	position: absolute;
+
+	height: 0.5rem;
+	width: 100%;
+
+	background: none;
+	-webkit-appearance: none;
+
+	pointer-events: none;
+}
+
+.range-input input[type="range"]::-webkit-slider-thumb{
+	height: 1.4rem;
+	width: 1.4rem;
+
+	-webkit-appearance: none;
+	pointer-events: auto;
+
+	border-radius: 50%;
+	background: var(--bs-primary);
+}
+
+.price-badge{
+
+	padding: 0.5rem;
+
+	background: var(--bs-primary);
+	color: var(--bs-light);
+
+	border-radius: 0.5rem;
 }
