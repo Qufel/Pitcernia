@@ -1,3 +1,3 @@
-<footer class="bg-light text-dark">
-    Tu jest stopka.
+<footer class="bg-light text-dark sticky-bottom">
+    Tu jest stopka. ha
 </footer>
