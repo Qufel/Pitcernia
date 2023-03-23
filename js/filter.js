@@ -16,16 +16,18 @@ rawFile.onreadystatechange = function ()
 }
 rawFile.send(null);
 
-displayPizza(filterPizzas([],25,0,100));
+pizzasToDisplay = getPizzas([],25,0,100);
 
-const ingridientsCheckboxes = document.querySelectorAll(".ingridient-check");
-const sizeRadios = document.querySelectorAll(".size-check");
+displayPizza(getPizzas([],25,0,100));
 
-const minInput = document.querySelector(".input-min");
-const maxInput = document.querySelector(".input-max");
+var ingridientsCheckboxes = document.querySelectorAll(".ingridient-check");
+var sizeRadios = document.querySelectorAll(".size-check");
 
-const minRange = document.querySelector(".range-min");
-const maxRange = document.querySelector(".range-max");
+var minInput = document.querySelector(".input-min");
+var maxInput = document.querySelector(".input-max");
+
+var minRange = document.querySelector(".range-min");
+var maxRange = document.querySelector(".range-max");
 
 ingridientsCheckboxes.forEach((checkbox) => {
     checkbox.addEventListener("input",filter);
@@ -62,11 +64,11 @@ function filter(e) {
     let minPrice = Number(minInput.value);
     let maxPrice = Number(maxInput.value);
 
-    pizzasToDisplay = filterPizzas(ingridients,size,minPrice,maxPrice);
+    pizzasToDisplay = getPizzas(ingridients,size,minPrice,maxPrice);
 
 }
 
-function filterPizzas(ingridients,size,min,max) {
+function getPizzas(ingridients,size,min,max) {
 
     let matchingToppings = pizzas.filter((pizza) => {
         ids = pizza.toppings.map(t => t.id);
@@ -89,6 +91,9 @@ function filterPizzas(ingridients,size,min,max) {
 
 searchBtn = document.querySelector("#search");
 searchBtn.addEventListener("click", () => {
+    if(pizzasToDisplay == false) {
+        //display "no pizzas" text
+    }
     displayPizza(pizzasToDisplay);
 });
 
@@ -121,7 +126,7 @@ function displayPizza(p = []) {
 					<p>${element.size} cm</p>
 				</div>
 				<div class="d-inline-flex">
-					<button class="btn btn-primary fw-bold">Zamów</button>
+					<button class="btn btn-primary fw-bold">Dodaj</button>
 				</div>
 			</div>
 		</div>
@@ -130,6 +135,29 @@ function displayPizza(p = []) {
     });
 
 }
+
+var clearBtn = document.querySelector("#clear-filters");
+var progress = document.querySelector(".progress");
+
+clearBtn.addEventListener("click", () => {
+    
+    ingridientsCheckboxes.forEach((checkbox) => {
+        checkbox.checked = false;
+    });
+    sizeRadios[0].checked = true;
+    
+    progress.style.left = "0%";
+    progress.style.right = "0%";
+
+    minInput.value = 0;
+    minRange.value = 0;
+
+    maxInput.value = 100;
+    maxRange.value = 100;
+    
+    pizzasToDisplay = getPizzas([],25,0,100);
+
+});
 
 function commonElementsOfArray(...arrays) {
     const size = arrays.length;
@@ -154,4 +182,10 @@ function commonElementsOfArray(...arrays) {
     });
   
     return commonElements;
+}
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
   }
