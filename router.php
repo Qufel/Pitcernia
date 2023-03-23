@@ -4,13 +4,6 @@ $baseUri = '/pitcernia/';
 
 $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 
-/*
-/pitcernia jest tymczasowe
-jest to nazwa folderu w którym macie projekt
-później podczas przenoszenia na localhosta wywalić
-dlatego WAŻNE żeby folder z projektem nazywał sie u każdego tak samo!!!
-*/
-
 $routes = [
     $baseUri . '' => 'controllers/menu.php',
     $baseUri . 'contact' => 'controllers/contact.php',
@@ -24,12 +17,25 @@ $routes = [
     $baseUri . 'forgot-password' => 'controllers/forgot-password.php'
 ];
 
-function RouteToController($uri, $routes){
-    if( array_key_exists($uri, $routes)){
-        require $routes[$uri];
-    }else{
-        Abort(404);
-    }
-} 
+$pizzaRoutes = [];
 
-RouteToController($uri, $routes);
+$bannedRoutes = [
+    $baseUri . 'pizzas.txt',
+];
+
+if(array_key_exists($uri, $routes)) {
+    require $routes[$uri];
+} elseif(array_key_exists($uri, $pizzaRoutes)) {
+    $pizzaId = $pizzaRoutes[$uri];
+    require 'controllers/pizza.php';
+} elseif(in_array($uri,$bannedRoutes)) {
+    Abort(403);
+} else {
+    Abort(404);
+}
+
+function Abort($code = 404){
+    http_response_code($code);
+    require "views/errors/$code.php";
+    die();
+}
