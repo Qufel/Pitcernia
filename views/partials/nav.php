@@ -15,7 +15,7 @@
                             <span>Menu</span>
                         </a>
                     </li>
-                    <li class="nav-item <?php if ($_SERVER["REQUEST_URI"] === "/pitcernia/contact") {
+                    <li class="nav-item mb-2 mb-md-0 <?php if ($_SERVER["REQUEST_URI"] === "/pitcernia/contact") {
                                             echo "active";
                                         } ?>">
                         <a href="contact" class="nav-link nav-btn btn btn-primary text-light">
@@ -25,7 +25,7 @@
                     </li>
                 </div>
                 <div class="user-nav d-md-flex col-lg-4 col-md-6 justify-content-end">
-                    <li class="nav-item <?php
+                    <li class="nav-item mb-2 mb-md-0 <?php
                                         if ($_SERVER["REQUEST_URI"] === "/pitcernia/cart") {
                                             echo "active";
                                         }
