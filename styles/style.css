@@ -19,11 +19,6 @@ footer {
 
 }
 
-nav {
-	min-height: 6rem;
-	background: no-repeat url(../assets/backgrounds/nav-bg.svg);
-}
-
 .navbar-shown {
 	display: flex;
 	padding-bottom: 0.5rem;
@@ -66,9 +61,29 @@ nav {
 	border-radius: 1rem;
 }
 
-.pizza-image{
+.pizza-image {
 	width: minmax(var(--pizza-card-width), 1fr)!important;
 	height: minmax(var(--pizza-card-width), 1fr)!important;
+}
+
+.ingredients-list {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	height: 6em;
+}
+
+.rounded-corners {
+	border-radius: 0.5rem;
+}
+
+.card {
+	border-radius: 0.5rem!important;
+}
+
+.pizza-btn {
+	border-radius: 0.5rem;
+	width: 7rem;
 }
 
 .filter {

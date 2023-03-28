@@ -1,13 +1,13 @@
 <?php session_start(); ?>
-<nav class="navbar navbar-expand-md sticky-top">
-    <div class="container d-flex justify-content-md-start justify-content-end" id="navbar-container">
-        <a href="/pitcernia/" class="navbar-brand mb-0 h1 order-md-0 order-1">
+<nav class="navbar navbar-expand-md navbar-light sticky-top">
+    <div class="container d-flex justify-content-md-start justify-content-between" id="navbar-container">
+        <a href="/pitcernia/" class="navbar-brand mb-0 justify order-md-0 order-1">
             <img src="assets/logo.webp" alt="" srcset="" style="height: 3rem;">
         </a>
         <div class="collapse navbar-collapse order-md-1 order-0" id="navbarNav">
             <ul class="navbar-nav w-100 d-flex">
                 <div class="d-md-flex col-lg-8 col-md-6 gap-3">
-                    <li class="nav-item <?php if ($_SERVER["REQUEST_URI"] === "/pitcernia/menu") {
+                    <li class="nav-item mb-2 mb-md-0 <?php if ($_SERVER["REQUEST_URI"] === "/pitcernia/menu") {
                                             echo "active";
                                         } ?>">
                         <a href="/pitcernia/" class="nav-link nav-btn btn btn-primary text-light">
@@ -86,7 +86,7 @@
             ?>">
                 Zarejestruj się
             </a>
-            <a type="button" href="login" class="nav-btn btn btn-primary 
+            <a type="button" href="login" class="nav-btn btn btn-primary
             <?php
             if (!isset($_SESSION['user'])) {
                 echo 'd-block';
@@ -102,8 +102,6 @@
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
-
-    <script src="./js/nav-collapse-style.js"></script>
 
 </nav>
 

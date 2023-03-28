@@ -10768,4 +10768,19 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+}
+@media (max-width: 767.98px) {
+  nav {
+    display: flex;
+    flex-basis: fit-content;
+    padding-bottom: 0.5rem;
+    background-color: var(--bs-secondary);
+    border-radius: 0 0 1rem 1rem;
+  }
+}
+@media (min-width: 768px) {
+  nav {
+    min-height: 6rem;
+    background: no-repeat url(../assets/backgrounds/nav-bg.svg);
+  }
 }/*# sourceMappingURL=themes.css.map */

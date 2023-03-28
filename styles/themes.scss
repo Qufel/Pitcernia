@@ -3,3 +3,21 @@ $secondary: #952e2e;
 
 //import bootstrap
 @import "../bootstrap/scss/bootstrap.scss";
+
+@include media-breakpoint-down(md) {
+    nav {
+        display: flex;
+        flex-basis: fit-content;
+        padding-bottom: 0.5rem;
+
+        background-color: var(--bs-secondary);
+        border-radius: 0 0 1rem 1rem;
+    }
+}
+
+@include media-breakpoint-up(md) {
+    nav {
+        min-height: 6rem;
+        background: no-repeat url(../assets/backgrounds/nav-bg.svg);
+    }
+}
