@@ -14,21 +14,17 @@ $routes = [
     $baseUri . 'login' => 'controllers/login.php',
     $baseUri . 'confirm-verification' => 'controllers/confirm-verification.php',
     $baseUri . 'restore-password' => 'controllers/restore-password.php',
-    $baseUri . 'forgot-password' => 'controllers/forgot-password.php'
+    $baseUri . 'forgot-password' => 'controllers/forgot-password.php',
+    $baseUri . 'pizza' => 'controllers/pizza.php'
 ];
 
-$pizzaRoutes = [];
-
-$bannedRoutes = [
+$forbidennRoutes = [
     $baseUri . 'pizzas.txt',
 ];
 
 if(array_key_exists($uri, $routes)) {
     require $routes[$uri];
-} elseif(array_key_exists($uri, $pizzaRoutes)) {
-    $pizzaId = $pizzaRoutes[$uri];
-    require 'controllers/pizza.php';
-} elseif(in_array($uri,$bannedRoutes)) {
+} elseif(in_array($uri,$forbidennRoutes)) {
     Abort(403);
 } else {
     Abort(404);

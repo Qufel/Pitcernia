@@ -106,6 +106,7 @@ function displayPizza(p = []) {
 
     p.forEach(element => {
         
+        let pizza_uri =  `pizza?id=${element.id}`;
         pizzaGrid.innerHTML +=
         `
         <div class="pizza-card card bg-light text-dark">
@@ -119,14 +120,14 @@ function displayPizza(p = []) {
 						</div>
 					</div>
 				</div>
-				<div class="align-middle">
+				<div class="align-middle flex-fill">
 					<h6>Składniki</h6>
 					<p>${element.toppings.map(t => t.topping).join(', ')}</p>
                     <h6>Rozmiar</h6>
 					<p>${element.size} cm</p>
 				</div>
-				<div class="d-inline-flex">
-					<button class="btn btn-primary fw-bold">Dodaj</button>
+				<div class="d-flex">
+					<a href="${pizza_uri}" class="pizza-btn btn btn-primary"><i class="bi bi-cart-plus-fill"></i> Dodaj do koszyka</a>
 				</div>
 			</div>
 		</div>

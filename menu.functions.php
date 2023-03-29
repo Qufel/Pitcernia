@@ -78,6 +78,56 @@ final class MenuFunctions
         return $pizzas;
     }
 
+    public static function get_pizza_by_id(int $id) : Pizza
+    {
+        $db = new Medoo(array(
+            'database_type' => 'mysql',
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
+        ));
+
+        $pizza = $db->select(
+            'pizzas',
+            '*',
+            [
+                'id' => $id
+            ]
+        )[0];
+
+        unset($db);
+
+        return new Pizza($pizza['id'], $pizza['name'], $pizza['size'], $pizza['price'], self::get_toppings($pizza['toppings']), $pizza['img_src']);
+    }
+
+    public static function get_pizza_sizes_with_id_by_name(string $name) : Array {
+
+        $db = new Medoo(array(
+            'database_type' => 'mysql',
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
+        ));
+
+        $pizzas = $db->select(
+            'pizzas',
+            [
+                'id',
+                'size'
+            ],
+            [
+                'name' => $name
+            ]
+        );
+
+        unset($db);
+
+        return $pizzas;
+
+    }
+
     public static function get_all_toppings()
     {
 

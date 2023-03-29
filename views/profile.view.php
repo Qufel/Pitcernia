@@ -1,6 +1,9 @@
-<?php session_start(); 
+<?php 
+    session_start(); 
+
     require_once "user.functions.php";
     $user = UserFunctions::get_user_by_email(json_decode($_SESSION['user'])->email);
+    
     session_write_close();
 ?>
 

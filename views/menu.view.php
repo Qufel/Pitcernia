@@ -12,7 +12,8 @@
 			<form action="search.php" method="get">
 				<div class="btn-group">
 					<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#filter" aria-expanded="false" aria-controls="filter"><i class="bi bi-funnel-fill"></i><span> Filter</span></button>
-					<button class="btn btn-primary" id="search" type="button"><i class="bi bi-search"></i><span> Szukaj </span><span>
+					<button class="btn btn-primary" id="clear-filters" type="button"><i class="bi bi-trash3-fill"></i> Wyczyść filtry</button>
+					<button class="btn btn-primary" id="search" type="button"><i class="bi bi-search"></i><span> Szukaj</span><span>
 						<div class="badge bg-light text-primary found-count"></div>
 					</span></button>
 				</div>
