@@ -16,8 +16,8 @@
 <div class="container my-3">
     <div class="card">
         <div class="card-body">
-            <h2>Witaj <?= $user->name ?></h2>
-            <div class="<?= $user->is_verified == 0 ? 'd-flex' : 'd-none'?> flex-column">
+            <h2>Witaj <?= $user->name ?><button type="button" onclick="window.location.href='views/admin.view.php';" class="btn btn-primary align-middle" src>Zarządzanie</button></h2>
+            <div class="<?= $user->is_verified == 0 ? 'd-flex' : 'd-none'?> flex-column">   
                 <hr>
                 <h5>Zweryfikuj swoje konto</h5>
                 <p>Aby móc skorzystać ze wszystkich funkcji naszej strony musisz zweryfikować swoje konto.</p>
