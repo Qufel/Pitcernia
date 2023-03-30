@@ -81,6 +81,7 @@
 
 	</div>
 
+    <?php require_once "partials/footer.php"; ?>
 	<script src="./js/multi-range.js"></script>
 	<script src="./js/filter.js"></script>
 
