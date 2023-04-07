@@ -1,9 +1,8 @@
 <?php
 
-require 'medoo/Medoo.php';
+require_once 'medoo/Medoo.php';
 
 use medoo\Medoo;
-use PHPMailer\PHPMailer\PHPMailer;
 
 class Pizza
 {
@@ -72,7 +71,7 @@ final class MenuFunctions
         $pizzas = array();
 
         foreach ($pizzasDb as $pizza) {
-            $pizzas[] = new Pizza($pizza['id'], $pizza['name'], $pizza['size'], $pizza['price'], self::get_toppings($pizza['toppings']), $pizza['img_src']);
+            $pizzas[] = new Pizza($pizza['id'], $pizza['name'], $pizza['size'], $pizza['price'], self::get_toppings($pizza['id']), $pizza['img_src']);
         }
 
         return $pizzas;
@@ -98,7 +97,7 @@ final class MenuFunctions
 
         unset($db);
 
-        return new Pizza($pizza['id'], $pizza['name'], $pizza['size'], $pizza['price'], self::get_toppings($pizza['toppings']), $pizza['img_src']);
+        return new Pizza($pizza['id'], $pizza['name'], $pizza['size'], $pizza['price'], self::get_toppings($pizza['id']), $pizza['img_src']);
     }
 
     public static function get_pizza_sizes_with_id_by_name(string $name) : Array {
@@ -171,7 +170,7 @@ final class MenuFunctions
         return $sizes;
     }
 
-    private static function get_toppings(string $toppingIDs): array
+    private static function get_toppings(int $pizza_id) : array
     {
         $db = new Medoo(array(
             'database_type' => 'mysql',
@@ -181,15 +180,23 @@ final class MenuFunctions
             'password' => self::$db_passwd
         ));
 
-        $ids = explode(',', $toppingIDs);
-
         $toppings = $db->select(
-            'toppings',
-            '*',
+            "toppings", 
             [
-                'id' => $ids
+                "[>]pizza_toppings" => ["id" => "toppings_id"],
+                "[>]pizzas" => ["pizza_toppings.pizzas_id" => "id"]
+            ],
+            [
+                "topping"
+            ],
+            [
+                "pizzas.id" => $pizza_id
             ]
         );
+
+        if($toppings == null){
+            return [];
+        }
 
         unset($db);
 

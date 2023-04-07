@@ -6,6 +6,7 @@
 <body>
 
     <?php require "partials/nav.php" ?>
+
     <?php
     $id = 1;
     if(isset($_GET['id'])) {
@@ -13,6 +14,8 @@
     }
     $pizza = MenuFunctions::get_pizza_by_id($id);
     ?>
+
+    <input type="hidden" id="pizza-id" value="<?=$id?>">
 
     <div class="container d-md-flex gap-3">
 
@@ -50,16 +53,19 @@
                         <a href="/pitcernia/" class="btn btn-primary"><i class="bi bi-caret-left-fill"></i> Wróć</a>
                     </div>
                     <div class="d-flex justify-content-end col-6 col-md-4">
-                        <div class="input-group">
-                            <button class="btn btn-primary form-control w-75 text-center align-middle"><i class="bi bi-cart-plus-fill"></i> Dodaj do koszyka</button>
+                        <?= !isset($_SESSION['user']) ? '' : '<div class="input-group">
+                            <a href="/pitcernia/" id="add-to-cart-btn" class="btn btn-primary form-control w-75 text-center align-middle"><i class="bi bi-cart-plus-fill"></i> Dodaj do koszyka</a>
                             <input type="number" name="amount" id="amount-inp" value="1" class="form-control w-25" min="1" max="99">
-                        </div>
+                        </div>' ?>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+
+    <?php require_once "partials/footer.php" ?>
+
+    <script src="js/add-to-cart.js"></script>
 
 </body>
 
