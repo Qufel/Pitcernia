@@ -1,7 +1,16 @@
-let pizzas;
-let pizzasToDisplay = [];
+var pizzas;
+var pizzasToDisplay = [];
 
-let rawFile = new XMLHttpRequest();
+var ingridientsCheckboxes = document.querySelectorAll(".ingridient-check");
+var sizeRadios = document.querySelectorAll(".size-check");
+
+var minInput = document.querySelector(".input-min");
+var maxInput = document.querySelector(".input-max");
+
+var minRange = document.querySelector(".range-min");
+var maxRange = document.querySelector(".range-max");
+
+var rawFile = new XMLHttpRequest();
 
 rawFile.open("POST", "./pizzas.txt", false);
 rawFile.onreadystatechange = function ()
@@ -16,34 +25,25 @@ rawFile.onreadystatechange = function ()
 }
 rawFile.send(null);
 
-pizzasToDisplay = getPizzas([],25,0,100);
+pizzasToDisplay = GetPizzas([],25,0,100);
 
-displayPizza(getPizzas([],25,0,100));
-
-var ingridientsCheckboxes = document.querySelectorAll(".ingridient-check");
-var sizeRadios = document.querySelectorAll(".size-check");
-
-var minInput = document.querySelector(".input-min");
-var maxInput = document.querySelector(".input-max");
-
-var minRange = document.querySelector(".range-min");
-var maxRange = document.querySelector(".range-max");
+DisplayPizza(pizzasToDisplay);
 
 ingridientsCheckboxes.forEach((checkbox) => {
-    checkbox.addEventListener("input",filter);
+    checkbox.addEventListener("input",Filter);
 });
 
 sizeRadios.forEach((radio) => {
-    radio.addEventListener("input",filter);
+    radio.addEventListener("input",Filter);
 });
 
-minInput.addEventListener("change",filter);
-maxInput.addEventListener("change",filter);
+minInput.addEventListener("change",Filter);
+maxInput.addEventListener("change",Filter);
 
-minRange.addEventListener("change",filter);
-maxRange.addEventListener("change",filter);
+minRange.addEventListener("change",Filter);
+maxRange.addEventListener("change",Filter);
 
-function filter(e) {
+function Filter(e) {
     
     var ingridients = [];
 
@@ -53,6 +53,8 @@ function filter(e) {
         }
     });
 
+    console.log("Ingridients:",ingridients);
+
     var size = 0;
     
     sizeRadios.forEach((radio) => {
@@ -61,27 +63,27 @@ function filter(e) {
         }
     });
 
-    let minPrice = Number(minInput.value);
-    let maxPrice = Number(maxInput.value);
+    var minPrice = Number(minInput.value);
+    var maxPrice = Number(maxInput.value);
 
-    pizzasToDisplay = getPizzas(ingridients,size,minPrice,maxPrice);
+    pizzasToDisplay = GetPizzas(ingridients,size,minPrice,maxPrice);
 
 }
 
-function getPizzas(ingridients,size,min,max) {
+function GetPizzas(ingridients,size,min,max) {
 
-    let matchingToppings = pizzas.filter((pizza) => {
+    var matchingToppings = pizzas.filter((pizza) => {
         ids = pizza.toppings.map(t => t.id);
         return ingridients.every(i => ids.includes(Number(i)));
     });
-    let matchingSize = pizzas.filter((pizza) => {
+    var matchingSize = pizzas.filter((pizza) => {
         return pizza.size == size;
     });
-    let matchingPrice = pizzas.filter((pizza) => {
+    var matchingPrice = pizzas.filter((pizza) => {
         return (pizza.price >= min && pizza.price <= max);
     });
 
-    let matching = commonElementsOfArray(matchingToppings,matchingPrice,matchingSize);
+    var matching = CommonElementsOfArray(matchingToppings,matchingPrice,matchingSize);
 
     document.querySelector(".found-count").innerHTML = matching.length;
 
@@ -94,11 +96,11 @@ searchBtn.addEventListener("click", () => {
     if(pizzasToDisplay == false) {
         //display "no pizzas" text
     }
-    displayPizza(pizzasToDisplay);
+    DisplayPizza(pizzasToDisplay);
 });
 
 
-function displayPizza(p = []) {
+function DisplayPizza(p = []) {
 
     const pizzaGrid = document.querySelector(".pizza-grid");
 
@@ -106,7 +108,7 @@ function displayPizza(p = []) {
 
     p.forEach(element => {
         
-        let pizza_uri =  `pizza?id=${element.id}`;
+        var pizza_uri =  `pizza?id=${element.id}`;
         pizzaGrid.innerHTML +=
         `
         <div class="pizza-card card bg-light text-dark">
@@ -156,11 +158,11 @@ clearBtn.addEventListener("click", () => {
     maxInput.value = 100;
     maxRange.value = 100;
     
-    pizzasToDisplay = getPizzas([],25,0,100);
-
+    pizzasToDisplay = GetPizzas([],25,0,100);
+    DisplayPizza(pizzasToDisplay);
 });
 
-function commonElementsOfArray(...arrays) {
+function CommonElementsOfArray(...arrays) {
     const size = arrays.length;
     const map = new Map();
     
@@ -169,7 +171,7 @@ function commonElementsOfArray(...arrays) {
         if (!map.has(entry)) {
           map.set(entry, 1);
         } else {
-          let timesSeen = map.get(entry);
+          var timesSeen = map.get(entry);
           map.set(entry, ++timesSeen);
         }
       });
@@ -184,9 +186,3 @@ function commonElementsOfArray(...arrays) {
   
     return commonElements;
 }
-
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-  }

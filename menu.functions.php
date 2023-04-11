@@ -187,6 +187,7 @@ final class MenuFunctions
                 "[>]pizzas" => ["pizza_toppings.pizzas_id" => "id"]
             ],
             [
+                "toppings.id",
                 "topping"
             ],
             [

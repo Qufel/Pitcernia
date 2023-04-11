@@ -24,11 +24,12 @@
         </div>
         <div class="col-md-8 my-3 card bg-light text-dark flex-fill">
             <div class="card-body">
-                <div class="card-title">
-                    <h3>Pizza <?= $pizza->name ?></h3>
+                <div class="card-title d-flex flex-row align-items-center">
+                    <h2 class="h2 flex-fill">Pizza <?= $pizza->name ?></h2>
+                    <h3 class="h3 price-badge"><?= $pizza->price?> zł</h3>
                 </div>
+                <hr class="dotted-hr">
                 <div class="d-flex flex-column">
-                    <hr>
                     <h5>Składniki</h5>
                     <ul class="">
                         <?php foreach ($pizza->toppings as $ingredient) : ?>
@@ -49,10 +50,10 @@
             </div>
             <div class="card-footer bg-light">
                 <div class="d-flex align-items-center">
-                    <div class="d-flex justify-content-start col-6 col-md-8">
+                    <div class="d-flex justify-content-start flex-fill">
                         <a href="/pitcernia/" class="btn btn-primary"><i class="bi bi-caret-left-fill"></i> Wróć</a>
                     </div>
-                    <div class="d-flex justify-content-end col-6 col-md-4">
+                    <div class="d-flex justify-content-end">
                         <?= !isset($_SESSION['user']) ? '' : '<div class="input-group">
                             <a href="/pitcernia/" id="add-to-cart-btn" class="btn btn-primary form-control w-75 text-center align-middle"><i class="bi bi-cart-plus-fill"></i> Dodaj do koszyka</a>
                             <input type="number" name="amount" id="amount-inp" value="1" class="form-control w-25" min="1" max="99">
@@ -62,6 +63,8 @@
             </div>
         </div>
     </div>
+
+    <div class="spacer"></div>
 
     <?php require_once "partials/footer.php" ?>
 

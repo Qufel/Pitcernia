@@ -7,7 +7,7 @@
 
 	<?php require "partials/nav.php" ?>
 
-	<div class="container my-3">
+	<div class="content-holder container my-3">
 		<div>
 			<form action="search.php" method="get">
 				<div class="btn-group">
@@ -79,9 +79,12 @@
 			
 		</div>
 
+		<div class="spacer"></div>
+
 	</div>
 
-    <?php require_once "partials/footer.php"; ?>
+    <?php require "partials/footer.php"; ?>
+
 	<script src="./js/multi-range.js"></script>
 	<script src="./js/filter.js"></script>
 
