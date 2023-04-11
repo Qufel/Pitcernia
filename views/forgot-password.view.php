@@ -17,11 +17,15 @@
                         <input type="email" class="form-control" name="email" placeholder="Email" required>
                         <label>Email</label>
                     </div>
+                    <div id="form-error-box" class="text-danger <?= isset($_GET['s']) ? (($_GET['s'] == "false") ? '' : 'd-none') : 'd-none' ?>">
+                        <p id="form-error-text"> <span class="badge bg-danger">!</span> <?= isset($_GET['m']) ? $_GET['m'] : '' ?></p>
+                    </div>
                     <div class="row">
                         <div class="d-flex col-6"><button type="submit" class="btn btn-primary">Wyślij mail</button></div>
                         <div class="d-flex col-6 justify-content-end"><a href="login" class="btn btn-primary">Wróć</a></div>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>

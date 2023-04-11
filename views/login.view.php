@@ -4,10 +4,10 @@
 <?php require "partials/head.php" ?>
 
 <body>
-    
+
     <?php require "partials/nav.php" ?>
 
-    <div class="container content-holder d-flex justify-content-center">
+    <div class="container">
 
         <div class="card form-card col-10 col-sm-8 col-md-6 col-lg-4 my-auto mx-auto">
             <div class="card-body d-flex">
@@ -38,8 +38,8 @@
                                     <span>Zaloguj się</span>
                                 </button>
 
-                                <div id="form-error-box" class="text-danger <?php if(isset($_GET['s'])) { if($_GET['s'] = "false") {echo '';} else {echo 'd-none';}} else {echo 'd-none';}?>">
-                                   <p id="form-error-text"> <span class="badge bg-danger">!</span> <?php if(isset($_GET['m'])) {echo $_GET['m']; }?></p>
+                                <div id="form-error-box" class="text-danger <?= isset($_GET['s']) ? (($_GET['s'] == "false") ? '' : 'd-none') : 'd-none' ?>">
+                                    <p id="form-error-text"> <span class="badge bg-danger">!</span> <?= isset($_GET['m']) ? $_GET['m'] : '' ?></p>
                                 </div>
 
                                 <p class="text-wrap">Nie masz jeszcze konta?
@@ -55,6 +55,10 @@
         </div>
 
     </div>
+
+    <div class="spacer" style="height: 0px;"></div>
+
+    <?php require "partials/footer.php" ?>
 
 </body>
 
