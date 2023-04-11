@@ -10769,6 +10769,10 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.p-fit {
+  padding: 0.5rem;
+}
+
 @media (max-width: 767.98px) {
   nav {
     display: flex;
@@ -10777,10 +10781,25 @@ textarea.form-control-lg {
     background-color: var(--bs-secondary);
     border-radius: 0 0 1rem 1rem;
   }
+  footer > .socials {
+    margin-top: 5rem;
+  }
+  .price-badge-bellow-md {
+    padding: 0.5rem;
+    background: var(--bs-primary);
+    color: var(--bs-light);
+    border-radius: 0.5rem;
+  }
 }
 @media (min-width: 768px) {
+  body {
+    overflow: overlay;
+  }
   nav {
     min-height: 6rem;
-    background: no-repeat url(../assets/backgrounds/nav-bg.svg);
+    background: top no-repeat url(../assets/backgrounds/nav-bg.svg);
+  }
+  footer > .socials {
+    margin-top: 4rem;
   }
 }/*# sourceMappingURL=themes.css.map */

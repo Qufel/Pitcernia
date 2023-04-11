@@ -4,6 +4,10 @@ $secondary: #952e2e;
 //import bootstrap
 @import "../bootstrap/scss/bootstrap.scss";
 
+.p-fit {
+    padding: 0.5rem;
+}
+
 @include media-breakpoint-down(md) {
     nav {
         display: flex;
@@ -13,11 +17,34 @@ $secondary: #952e2e;
         background-color: var(--bs-secondary);
         border-radius: 0 0 1rem 1rem;
     }
+
+    footer>.socials {
+        margin-top: 5rem;
+    }
+
+    .price-badge-bellow-md {
+        padding: 0.5rem;
+
+        background: var(--bs-primary);
+        color: var(--bs-light);
+
+        border-radius: 0.5rem;
+    }
+
 }
 
 @include media-breakpoint-up(md) {
+    body {
+        overflow: overlay;
+    }
+
     nav {
         min-height: 6rem;
-        background: no-repeat url(../assets/backgrounds/nav-bg.svg);
+        background: top no-repeat url(../assets/backgrounds/nav-bg.svg);
     }
+
+    footer>.socials {
+        margin-top: 4rem;
+    }
+
 }
