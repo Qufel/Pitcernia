@@ -1,6 +1,6 @@
 <?php
 
-require 'medoo/Medoo.php';
+require_once 'medoo/Medoo.php';
 
 require 'PHPMailer/PHPMailer.php';
 require 'PHPMailer/SMTP.php';
