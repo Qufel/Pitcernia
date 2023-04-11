@@ -1,6 +1,11 @@
 var cart = JSON.parse(window.sessionStorage.getItem("cart"));
 var cartValue = [];
 
+var ascPrice = false;
+var ascQuantity = false;
+
+//#region get pizzas
+
 var rawFile = new XMLHttpRequest();
 
 rawFile.open("POST", "./pizzas.txt", false);
@@ -15,6 +20,8 @@ rawFile.onreadystatechange = function ()
     }
 }
 rawFile.send(null);
+
+//#endregion
 
 DisplayCartItems(GetPizzasInCart(pizzas, cart));
 
@@ -31,10 +38,13 @@ function DisplayCartItems ( items = [] ) {
     }
 
     pizzaGrid.innerHTML = "";
+    cartValue = [];
+
     items.forEach((item) => {
         var index = items.indexOf(item);
 
         var totalPrice = Math.round((item.pizza.price * item.count) * 100) / 100;
+        cartValue.push(totalPrice);
 
         var toppings = item.pizza.toppings.map((t) => t.topping).join(', ');
 
@@ -43,7 +53,7 @@ function DisplayCartItems ( items = [] ) {
             <img src="./assets/${item.pizza.img_src}" alt="${item.pizza.img_src}" class="cart-item-img d-none d-md-block">
             <div class="cart-item-separator d-none d-md-block"></div>
             <div class="flex-md-fill text-md-start d-flex flex-column">
-                <span class="cart-item-name"><a href="pizza?id= ${item.pizza.id}" class="h6 text-dark text-decoration-none">Pizza ${item.pizza.name}</a></span>
+                <span class="cart-item-name"><a href="pizza?id= ${item.pizza.id}" class="h5 text-dark text-decoration-none">Pizza ${item.pizza.name}</a></span>
                 <div>
                     <span>Rozmiar: <span class="cart-item-size">${item.pizza.size}</span>cm</span>
                     <span>Składniki: <span class="cart-item-toppings">${toppings}</span></span>
@@ -89,15 +99,55 @@ function DisplayCartItems ( items = [] ) {
             })
         })
 
+        UpdateTotalPrice();
+
     });
 }
+
+var clearBtn = document.querySelector("#clear-btn");
+
+clearBtn.addEventListener("click", () => {
+    ClearCart();
+})
+
+var sortPriceBtn = document.querySelector("#price-sort-btn");
+var sortQuantityBtn = document.querySelector("#quantity-sort-btn");
+
+sortPriceBtn.addEventListener("click", () => {
+    if(cart == null) return;
+
+    SortByPrice();
+
+    ascPrice = !ascPrice;
+
+    if(ascPrice) {
+        document.querySelector("#price-sort").innerHTML = `<i class="bi bi-caret-down-fill"></i>`;
+    } else {
+        document.querySelector("#price-sort").innerHTML = `<i class="bi bi-caret-up-fill"></i>`;
+    }
+
+});
+
+sortQuantityBtn.addEventListener("click", () => {
+    if(cart == null) return;
+
+    SortByQuantity();
+
+    ascQuantity = !ascQuantity;
+
+    if(ascQuantity) {
+        document.querySelector("#quantity-sort").innerHTML = `<i class="bi bi-caret-down-fill"></i>`;
+    } else {
+        document.querySelector("#quantity-sort").innerHTML = `<i class="bi bi-caret-up-fill"></i>`;
+    }
+
+});
+
 
 function GetPizzasInCart (pizzas = [], items = []) {
     var res = [];
     
-    if(items == null) {
-        return res;
-    }
+    if(items == null) return res;
 
     items.forEach((item) => {
         pizzas.forEach((pizza) => {
@@ -125,6 +175,7 @@ function RemovePizza (id = -1) {
     Update();
 }
 
+//#region updates
 function UpdateSession () {
     sessionStorage.setItem("cart", JSON.stringify(cart));
 }
@@ -133,12 +184,65 @@ function UpdateDisplay () {
     DisplayCartItems(GetPizzasInCart(pizzas, cart));
 }
 
+function UpdateTotalPrice () {
+    
+    var priceDisplay = document.querySelector("#total-price");
+    priceDisplay.innerHTML = Math.round((cartValue.reduce((acc, cur) => acc + cur, 0)) * 100) / 100;
+
+}
+
 function Update () {
     
     var count = cart.reduce((acc, pizza) => acc + pizza.pizzaCount, 0);
 
     UpdateDisplay();
     UpdateSession();
+    UpdateTotalPrice();
 
     UpdateNav(count);
+
+    document.querySelector("#cart-content").value = cart;
+}
+//#endregion
+
+function ClearCart () {
+    sessionStorage.setItem("cart", JSON.stringify([]));
+    cart = [];
+
+    Update();
+}
+
+//descending sort by default
+function SortByPrice () {
+    var cartSorted = cart.sort((b, a) => {
+
+        pizzaA = pizzas.filter(pizza => {
+            return pizza.id == a.pizzaId;
+        })[0];
+        pizzaB = pizzas.filter(pizza => {
+            return pizza.id == b.pizzaId;
+        })[0];
+
+        return (pizzaA.price * a.pizzaCount) - (pizzaB.price * b.pizzaCount);
+
+    });
+
+    if(ascPrice) {
+        cartSorted = cartSorted.reverse();
+    }
+
+    DisplayCartItems(GetPizzasInCart(pizzas, cartSorted));
+}
+
+//descending sort by default
+function SortByQuantity () {
+    var cartSorted = cart.sort((b, a) => {
+        return a.pizzaCount - b.pizzaCount;
+    });
+
+    if(ascQuantity) {
+        cartSorted = cartSorted.reverse();
+    }
+
+    DisplayCartItems(GetPizzasInCart(pizzas, cartSorted));
 }
