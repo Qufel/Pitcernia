@@ -18,20 +18,13 @@ $routes = [
     $baseUri . 'pizza' => 'controllers/pizza.php'
 ];
 
-$forbidennRoutes = [
-    $baseUri . 'pizzas.txt',
-];
-
 if(array_key_exists($uri, $routes)) {
     require $routes[$uri];
-} elseif(in_array($uri,$forbidennRoutes)) {
-    Abort(403);
 } else {
     Abort(404);
 }
 
 function Abort($code = 404){
     http_response_code($code);
-    require "views/errors/$code.php";
     die();
 }
