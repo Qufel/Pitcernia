@@ -7,67 +7,46 @@
         <div class="collapse navbar-collapse order-md-1 order-0" id="navbarNav">
             <ul class="navbar-nav w-100 d-flex">
                 <div class="d-md-flex col-lg-8 col-md-6 gap-3">
-                    <li class="nav-item mb-2 mb-md-0 <?php if ($_SERVER["REQUEST_URI"] === "/pitcernia/menu") {
-                                            echo "active";
-                                        } ?>">
-                        <a href="/pitcernia/" class="nav-link nav-btn btn btn-primary text-light">
+                    <li class="nav-item mb-2 mb-md-0 <?= $_SERVER["REQUEST_URI"] === "/pitcernia/" ? 'active' : '' ?>">
+                        <a type="button" href="/pitcernia/" class="nav-link nav-btn btn btn-primary text-light">
                             <i class="bi bi-grid-fill"></i>
                             <span>Menu</span>
                         </a>
                     </li>
-                    <li class="nav-item mb-2 mb-md-0 <?php if ($_SERVER["REQUEST_URI"] === "/pitcernia/contact") {
-                                            echo "active";
-                                        } ?>">
-                        <a href="contact" class="nav-link nav-btn btn btn-primary text-light">
+                    <li class="nav-item mb-2 mb-md-0 <?= $_SERVER["REQUEST_URI"] === "/pitcernia/contact" ? 'active' : '' ?>">
+                        <a type="button" href="contact" class="nav-link nav-btn btn btn-primary text-light">
                             <i class="bi bi-telephone-fill"></i>
                             <span>Kontakt</span>
                         </a>
                     </li>
                 </div>
                 <div class="user-nav d-md-flex col-lg-4 col-md-6 justify-content-end">
-                    <li class="nav-item mb-2 mb-md-0 <?php
-                                        if ($_SERVER["REQUEST_URI"] === "/pitcernia/cart") {
-                                            echo "active";
-                                        }
-                                        if (!isset($_SESSION['user'])) {
-                                            echo 'd-none';
-                                        } else {
-                                            echo 'd-block';
-                                        }
-                                        ?>">
-                        <a href="cart" class="nav-link nav-btn btn btn-primary text-light mx-md-3">
+                    <li class="nav-item mb-2 mb-md-0 <?= $_SERVER["REQUEST_URI"] === "/pitcernia/cart" ? 'active' : '' ?><?= !isset($_SESSION['user']) ? 'd-none' : 'd-block' ?>">
+                        <a id="cart-btn" type="button" href="cart" class="nav-link nav-btn btn btn-primary text-light mx-md-3">
                             <i class="bi bi-cart-fill"></i>
                             <span>Koszyk</span>
+                            <span id="cart-items-amount" class="badge bg-light text-primary"></span>
                         </a>
                     </li>
-                    <li class="nav-item dropdown <?php
-                                                    if ($_SERVER["REQUEST_URI"] === "/pitcernia/profile") {
-                                                        echo "active";
-                                                    }
-                                                    if (!isset($_SESSION['user'])) {
-                                                        echo 'd-none';
-                                                    } else {
-                                                        echo 'd-block';
-                                                    }
-                                                    ?>">
-                        <a class="dropdown-toggle nav-link nav-btn btn btn-primary text-light" id="navbarUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <li class="nav-item dropdown <?= $_SERVER["REQUEST_URI"] === "/pitcernia/profile" ? 'active' : '' ?> <?= !isset($_SESSION['user']) ? 'd-none' : 'd-block' ?>">
+                        <a type="button" class="dropdown-toggle nav-link nav-btn btn btn-primary text-light" id="navbarUser" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-fill"></i>
                             <span>Profil</span>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarUser">
                             <li>
                                 <a href="profile" class="dropdown-item">
-                                    Zobacz profil
+                                <i class="bi bi-person-fill"></i> Zobacz profil
                                 </a>
                             </li>
                             <li>
                                 <a href="orders" class="dropdown-item">
-                                    Zamówienia
+                                <i class="bi bi-ui-checks"></i> Zamówienia
                                 </a>
                             </li>
                             <li>
                                 <a href="log-out-user.php" class="dropdown-item" role="button">
-                                    Wyloguj się
+                                <i class="bi bi-box-arrow-left"></i> Wyloguj się
                                 </a>
                             </li>
                         </ul>
@@ -77,23 +56,11 @@
         </div>
         <div class="d-flex gap-2 order-2">
             <a type="button" href="register" class="nav-btn btn btn-primary 
-            <?php
-            if (!isset($_SESSION['user'])) {
-                echo 'd-none d-md-block';
-            } else {
-                echo 'd-none';
-            }
-            ?>">
+            <?= !isset($_SESSION['user']) ? 'd-none d-md-block' : 'd-none' ?>">
                 Zarejestruj się
             </a>
             <a type="button" href="login" class="nav-btn btn btn-primary
-            <?php
-            if (!isset($_SESSION['user'])) {
-                echo 'd-block';
-            } else {
-                echo 'd-none';
-            }
-            ?>">
+            <?= !isset($_SESSION['user']) ? 'd-block' : 'd-none' ?> ">
                 <i class="bi bi-box-arrow-in-right"></i>
                 <span>Zaloguj się</span>
             </a>
@@ -102,6 +69,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
     </div>
+
+    <script src="js/items-in-cart.js"></script>
 
 </nav>
 
