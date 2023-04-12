@@ -50,8 +50,7 @@ final class MenuFunctions
     private static $db_user = 'root';
     private static $db_passwd = '';
 
-    public static function get_pizzas(): array
-    {
+    public static function get_pizzas(): Array {
         $db = new Medoo(array(
             'database_type' => 'mysql',
             'database_name' => self::$db_name,
@@ -77,8 +76,7 @@ final class MenuFunctions
         return $pizzas;
     }
 
-    public static function get_pizza_by_id(int $id) : Pizza
-    {
+    public static function get_pizza_by_id(int $id) : Pizza {
         $db = new Medoo(array(
             'database_type' => 'mysql',
             'database_name' => self::$db_name,
@@ -127,8 +125,7 @@ final class MenuFunctions
 
     }
 
-    public static function get_all_toppings()
-    {
+    public static function get_all_toppings() {
 
         $db = new Medoo(array(
             'database_type' => 'mysql',
@@ -149,8 +146,7 @@ final class MenuFunctions
         return $toppings;
     }
 
-    public static function get_all_sizes()
-    {
+    public static function get_all_sizes() {
         $db = new Medoo(array(
             'database_type' => 'mysql',
             'database_name' => self::$db_name,
@@ -170,8 +166,7 @@ final class MenuFunctions
         return $sizes;
     }
 
-    private static function get_toppings(int $pizza_id) : array
-    {
+    private static function get_toppings(int $pizza_id) : array {
         $db = new Medoo(array(
             'database_type' => 'mysql',
             'database_name' => self::$db_name,

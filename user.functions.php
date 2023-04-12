@@ -435,6 +435,68 @@ final class UserFunctions {
 
     }
 
+    public static function get_user_id(User $user) : int {
+        $db = new Medoo(array(
+            'database_type' => 'mysql',
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
+        ));
+
+        $id = $db->select(
+            'users',
+            'id',
+            [
+                'email' => $user->email
+            ]
+        );
+
+        unset($db);
+
+        return intval($id[0]);
+    }
+
+    public static function get_user_by_id(int $id) {
+        $db = new Medoo(array(
+            'database_type' => 'mysql',
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
+        ));
+
+        $user = $db->select(
+            'users',
+            [
+                'email',
+                'passwd',
+                'name',
+                'surname',
+                'phone',
+                'is_verified',
+                'is_admin'
+            ],
+            ['id' => $id]
+        );
+
+        if(!$user){
+            return new UserFunctionStatus(false, "Nie znaleziono użytkownika o podanym emailu.");
+        }
+
+        unset($db);
+
+        return new User(
+            $user[0]['email'],
+            $user[0]['passwd'],
+            $user[0]['name'],
+            $user[0]['surname'],
+            $user[0]['phone'],
+            $user[0]['is_verified'],
+            $user[0]['is_admin']
+        );
+    }
+
     public static function get_user_verification_code(User $user) : string {
 
         $db = new Medoo(array(
@@ -454,6 +516,24 @@ final class UserFunctions {
         unset($db);
 
         return $code;
+    }
+
+    public static function get_all_users() {
+        $db = new Medoo(array(
+            'database_type' => 'mysql',
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
+        ));
+
+        $users = $db->select(
+            'users',
+            '*',
+            ''
+        );
+
+        return $users;
     }
 
     private static function check_if_user_exists(string $email) : bool {

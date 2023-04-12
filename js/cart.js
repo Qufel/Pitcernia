@@ -99,6 +99,8 @@ function DisplayCartItems ( items = [] ) {
             })
         })
 
+        document.querySelector("#cart-content").value = JSON.stringify(cart);
+
         UpdateTotalPrice();
 
     });
@@ -173,6 +175,8 @@ function RemovePizza (id = -1) {
         cart.splice(cart.indexOf(item),1);
     }
     Update();
+
+    document.querySelector("#cart-content").value = JSON.stringify(cart);
 }
 
 //#region updates
@@ -199,9 +203,8 @@ function Update () {
     UpdateSession();
     UpdateTotalPrice();
 
+    document.querySelector("#cart-content").value = JSON.stringify(cart);
     UpdateNav(count);
-
-    document.querySelector("#cart-content").value = cart;
 }
 //#endregion
 

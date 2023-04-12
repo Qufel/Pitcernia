@@ -28,7 +28,7 @@
             </section>
             <div class="card p-3">
                 <form action="make-order.php" method="get">
-                    <input type="hidden" id="cart-content" name="cart">
+                    <input type="hidden" id="cart-content" name="cart" value="">
                     <section id="summury-section" class="d-flex align-items-center">
                         <div class="flex-fill d-flex align-items-center">
                             <h5 class="h5">Razem: <span class="price-badge"><span id="total-price">0</span> zł</span></h5>
