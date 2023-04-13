@@ -61,6 +61,9 @@
                             </div>
                         </div>
                     </section>
+                    <div id="form-error-box" class="text-danger <?= isset($_GET['s']) ? (($_GET['s'] == "false") ? '' : 'd-none') : 'd-none' ?>">
+                        <p id="form-error-text"> <span class="badge bg-danger">!</span> <?= isset($_GET['m']) ? $_GET['m'] : '' ?></p>
+                    </div>
                 </form>
             </div>
         </div>

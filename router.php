@@ -15,7 +15,8 @@ $routes = [
     $baseUri . 'confirm-verification' => 'controllers/confirm-verification.php',
     $baseUri . 'restore-password' => 'controllers/restore-password.php',
     $baseUri . 'forgot-password' => 'controllers/forgot-password.php',
-    $baseUri . 'pizza' => 'controllers/pizza.php'
+    $baseUri . 'pizza' => 'controllers/pizza.php',
+    $baseUri . 'order-summary' => 'controllers/order-summary.php',
 ];
 
 if(array_key_exists($uri, $routes)) {

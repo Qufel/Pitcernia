@@ -97,7 +97,7 @@ final class OrderFunctions {
         unset($db);
     }
 
-    public static function GetAllOrders () {
+    public static function GetAllOrders (int $user_id = -1) {
         $db = new Medoo(array(
             'database_type' => 'mysql',
             'database_name' => self::$db_name,
@@ -106,11 +106,19 @@ final class OrderFunctions {
             'password' => self::$db_passwd
         ));
 
-        $orders_db = $db->select(
+        $orders_db = $user_id == -1 ? 
+        $db->select(
             'orders',
             '*',
             ''
-        );
+        ) :
+        $db->select(
+            'orders',
+            '*',
+            [
+                'user_id' => $user_id
+            ]
+        );;
 
         $pizzas = $db->select(
             'pizzas_in_order',
@@ -133,7 +141,7 @@ final class OrderFunctions {
             $pizzas_of_id = [];
 
             foreach($pizzas as $pizza) {
-                if($pizza['pizzas_id'] == $id) {
+                if($pizza['orders_id'] == $id) {
                     array_push($pizzas_of_id, $pizza);
                 }
             } 
