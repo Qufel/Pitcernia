@@ -27,7 +27,7 @@
                 </div>
             </section>
             <div class="card p-3">
-                <form action="make-order.php" method="get">
+                <form action="make-order.php" method="get" id="make-order-form">
                     <input type="hidden" id="cart-content" name="cart" value="">
                     <section id="summury-section" class="d-flex align-items-center">
                         <div class="flex-fill d-flex align-items-center">

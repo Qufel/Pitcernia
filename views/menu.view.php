@@ -7,7 +7,7 @@
 
 	<?php require "partials/nav.php" ?>
 
-	<div class="content-holder container my-3">
+	<div class="content-holder container mt-3">
 		<div>
 			<form action="search.php" method="get">
 				<div class="btn-group">
@@ -23,7 +23,7 @@
 							<div class="col-md-4">
 								<h5>Składniki</h5>
 								<ul class="list-unstyled">
-									<?php foreach (MenuFunctions::get_all_toppings() as $topping) { ?>
+									<?php foreach (MenuFunctions::GetAllToppings() as $topping) { ?>
 										<li>
 											<div class="form-check">
 												<input class="form-check-input ingridient-check" type="checkbox" value="<?= $topping['id'] ?>" name="toppings[]" id="checkbox<?= $topping['topping'] ?>">
@@ -36,7 +36,7 @@
 							<div class="col-md-4">
 								<h5>Rozmiar</h5>
 								<ul class="list-unstyled">
-									<?php foreach (MenuFunctions::get_all_sizes() as $size) { ?>
+									<?php foreach (MenuFunctions::GetAllSizes() as $size) { ?>
 										<li>
 											<div class="form-check">
 												<input class="form-check-input size-check" type="radio" value="<?= $size ?>" name="size" id="radio<?= $size ?>" <?= $size == 25 ? "checked" : "" ?>>

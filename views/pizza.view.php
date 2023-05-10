@@ -40,7 +40,7 @@
                     </ul>
                     <h5>Rozmiar</h5>
                     <div class="d-flex gap-3">
-                        <?php foreach (MenuFunctions::get_pizza_sizes_with_id_by_name($pizza->name) as $size) : ?>
+                        <?php foreach (MenuFunctions::GetPizzaSizesWithIdByName($pizza->name) as $size) : ?>
                             <a href="pizza?id=<?= $size['id'] ?>" class="size-btn flex-fill btn <?= (int)$size['id'] == $pizza->id ? 'btn-primary' : 'btn-outline-primary' ?>">
                                 <?= $size['size'] ?> cm
                             </a>

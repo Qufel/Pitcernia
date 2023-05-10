@@ -25,7 +25,7 @@ if(is_null($cart) || count($cart) == 0) {
     exit;
 }
 
-$order = new Order($cart, $user, OrderFunctions::GenerateUniqueOrderNum() , $city, $street, $bNum, $aNum);
+$order = new Order($cart, $user, OrderFunctions::GenerateUniqueOrderNum(), null , $city, $street, $bNum, $aNum);
 OrderFunctions::AddOrder($order);
 
 $pizzas = json_encode($cart);
