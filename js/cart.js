@@ -104,13 +104,20 @@ function DisplayCartItems ( items = [] ) {
         UpdateTotalPrice();
 
     });
+
 }
 
 var clearBtn = document.querySelector("#clear-btn");
 
 clearBtn.addEventListener("click", () => {
     ClearCart();
-})
+    location.reload();
+});
+
+var makeOrderForm = document.querySelector("#make-order-form");
+
+makeOrderForm.addEventListener("submit", () => {
+});
 
 var sortPriceBtn = document.querySelector("#price-sort-btn");
 var sortQuantityBtn = document.querySelector("#quantity-sort-btn");

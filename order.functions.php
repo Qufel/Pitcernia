@@ -13,17 +13,19 @@ class Order {
     public $user;
     //order details
     public $order_num; //random unique code - AB1234
+    public $order_date;
     public $city;
     public $street;
     public $building_num;
     public $apartment_num;
     public $status; //0 - aborted; 1 - in progress; 2 - finished;
 
-    function __construct($pizzas, $user, $order_num, $city, $street, $building_num, $apartment_num = null, $status = 1) {
+    function __construct($pizzas, $user, $order_num, $order_date = null, $city, $street, $building_num, $apartment_num = null, $status = 1) {
         $this->pizzas = $pizzas;
         $this->user = $user;
 
         $this->order_num = $order_num;
+        $this->order_date = $order_date;
         $this->city = $city;
         $this->street = $street;
         $this->building_num = $building_num;
@@ -97,7 +99,7 @@ final class OrderFunctions {
         unset($db);
     }
 
-    public static function GetAllOrders (int $user_id = -1) {
+    public static function GetOrders (int $user_id = -1) {
         $db = new Medoo(array(
             'database_type' => 'mysql',
             'database_name' => self::$db_name,
@@ -118,7 +120,7 @@ final class OrderFunctions {
             [
                 'user_id' => $user_id
             ]
-        );;
+        );
 
         $pizzas = $db->select(
             'pizzas_in_order',
@@ -163,6 +165,7 @@ final class OrderFunctions {
                     $ordered_pizzas, 
                     $user_id,
                     $order_db['order_num'],
+                    $order_db['order_date'],
                     $order_db['city'], 
                     $order_db['street'], 
                     $order_db['building_num'], 
@@ -176,13 +179,131 @@ final class OrderFunctions {
         return $orders;
     }
 
-    public static function AbortOrder () : OrderFunctionsStatus {
+    public static function GetOrderByID (int $id) : Order {
+        $db = new Medoo(array(
+            'database_type' => 'mysql',
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
+        ));
+
+        $order = $db->select(
+            'orders',
+            '*',
+            [
+                'id' => $id
+            ]
+        )[0];
+
+        $pizzas = $db->select(
+            'pizzas_in_order',
+            '*',
+            [
+                'orders_id' => $id
+            ]
+        );
+
+        $ordered_pizzas = [];
+
+        foreach($pizzas as $pizza) {
+            array_push($ordered_pizzas, (object) array('pizzaId' => $pizza['pizzas_id'], 'pizzaCount' => $pizza['count']));
+        }
+
+        return new Order(
+            $ordered_pizzas,
+            $order['user_id'],
+            $order['order_num'],
+            $order['order_date'],
+            $order['city'],
+            $order['street'],
+            $order['building_num'],
+            $order['apartment_num'],
+            $order['status'],
+        );
+    }
+
+    public static function GetOrderID (Order $order) : int {
+        $db = new Medoo(array(
+            'database_type' => 'mysql',
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
+        ));
+
+        $id = $db->select(
+            'orders',
+            'id',
+            [
+                'order_num' => $order->order_num
+            ]
+        )[0];
+
+        unset($db);
+
+        return intval($id);
+    }
+
+    public static function CancelOrder (string $order_num) {
         
+        if($order_num == ""){
+            return;
+        }
+        
+        echo $order_num;
+
+        $db = new Medoo(array(
+            'database_type' => 'mysql',
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
+        ));
+
+        $data = $db->update(
+            'orders',
+            [
+                'status' => 0
+            ],
+            [
+                'order_num' => $order_num
+            ]
+        );
+
+        unset($db);
+    }
+
+    public static function FinalizeOrder (int $id) {
+
+        if($id == -1){
+            return;
+        }
+
+        $db = new Medoo(array(
+            'database_type' => 'mysql',
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
+        ));
+
+        $db->update(
+            'orders',
+            [
+                'status' => 2
+            ],
+            [
+                'id' => $id
+            ]
+        );
+
+        unset($db);
     }
 
     public static function GenerateUniqueOrderNum () {
         
-        $orders = self::GetAllOrders();
+        $orders = self::GetOrders();
         $char_arr = str_split('ABCDEFGHIJKLMNOPRSTQUVWXYZ1234567890');
 
         shuffle($char_arr);

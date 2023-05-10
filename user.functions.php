@@ -1,6 +1,7 @@
 <?php
 
 require_once 'medoo/Medoo.php';
+require_once 'order.functions.php';
 
 require 'PHPMailer/PHPMailer.php';
 require 'PHPMailer/SMTP.php';
@@ -11,9 +12,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 
 class User{
     
-    public $email, $passwd, $name, $surname, $phone, $is_verified, $is_admin;
+    public $email, $passwd, $name, $surname, $phone, $is_verified, $is_admin, $is_deleted;
 
-    public function __construct($email, $passwd, $name, $surname, $phone, $is_verified = 0, $is_admin = 0) {
+    public function __construct($email, $passwd, $name, $surname, $phone, $is_verified = 0, $is_admin = 0, $is_deleted = 0) {
         $this->email = $email;
         $this->passwd = $passwd;
         $this->name = $name;
@@ -21,6 +22,7 @@ class User{
         $this->phone = $phone;
         $this->is_verified = $is_verified;
         $this->is_admin = $is_admin;
+        $this->is_deleted = $is_deleted;
     }
     public function __toString() {
         return $this->email;
@@ -100,6 +102,8 @@ final class UserFunctions {
     private static $db_user = 'root';
     private static $db_passwd = '';
 
+    //Tworzenie, usuwanie i modyfikacja użytkownika
+
     public static function register_user(User $user) : UserFunctionStatus {
 
         $db = new Medoo(array(
@@ -112,12 +116,41 @@ final class UserFunctions {
         
         $users = $db->select(
             'users',
-            'email',
+            [
+                'email',
+                'is_deleted'
+            ],
             ['email' => $user->email]
         );
 
         //Sprawdź czy email istnieje w bazie
         if($users){
+            
+            if($users[0]['is_deleted']) {
+                $db->update(
+                    'users',
+                    [
+                        'passwd' => $user->passwd,
+                        'name' => $user->name,
+                        'surname' => $user->surname,
+                        'phone' => $user->phone,
+                        'verification_code' => self::generte_verification_code(),
+                        'is_verified' => $user->is_verified,
+                        'is_admin' => $user->is_admin,
+                        'is_deleted' => 0
+                    ],
+                    [
+                        'email' => $user->email
+                    ]
+                );
+
+                unset($db);
+
+                UserFunctions::log_in_user($user->email, $user->passwd);
+
+                return new UserFunctionStatus(true, "Zarejestrowano nowego użytkownika.");
+            }
+
             //Jeśli tak zakończ rejestracje z niepowodzeniem
             unset($db);
             return new UserFunctionStatus(false, "Konto pod tym adresem jest już zarejestrowane.");
@@ -134,94 +167,17 @@ final class UserFunctions {
                 'phone' => $user->phone,
                 'verification_code' => self::generte_verification_code(),
                 'is_verified' => $user->is_verified,
-                'is_admin' => $user->is_admin
+                'is_admin' => $user->is_admin,
+                'is_deleted' => 0
             ]
         );
 
         unset($db);
+
+        UserFunctions::log_in_user($user->email, $user->passwd);
 
         return new UserFunctionStatus(true, "Zarejestrowano nowego użytkownika.");
 
-    }
-
-    public static function verify_user(User $user, string $code) : UserFunctionStatus {
-
-        $db = new Medoo(array(
-            'database_type' => 'mysql',
-            'database_name' => self::$db_name,
-            'server' => self::$db_server,
-            'username' => self::$db_user,
-            'password' => self::$db_passwd
-        ));
-
-        if($code !== UserFunctions::get_user_verification_code($user)){
-            unset($db);
-            return new UserFunctionStatus(false, "Kody weryfikacji nie są takie same.");
-        }
-
-        $db->update(
-            'users',
-            [
-                'is_verified' => true
-            ],
-            [
-                'email' => $user->email
-            ]
-        );
-
-        unset($db);
-
-        return new UserFunctionStatus(true, "Email zweryfikowany poprawnie.");
-    }
-
-    public static function log_in_user(string $email, string $passwd) : UserFunctionStatus {
-
-        session_start();
-
-        $user = self::get_user_by_email($email);
-
-        if($user === false || !password_verify($passwd, $user->passwd)){
-            //wrong email
-            return new UserFunctionStatus(false, "Zły adres email lub hasło.");
-        }
-
-        $_SESSION['user'] = json_encode((array)$user);
-
-        session_write_close();
-
-        return new UserFunctionStatus(true, "Zalogowano.");
-
-    }
-
-    public static function log_out_user() : UserFunctionStatus {
-
-        session_start();
-
-        unset($_SESSION['user']);
-
-        session_write_close();
-
-        return new UserFunctionStatus(true, "Wylogowano.");
-    }
-
-    public static function get_user_from_session() : User {
-        session_start();
-
-        $d_json = json_decode($_SESSION['user']);
-
-        $user = new User(
-            $d_json->email,
-            $d_json->passwd,
-            $d_json->name,
-            $d_json->surname,
-            $d_json->phone,
-            $d_json->is_verified,
-            $d_json->is_admin,
-        );
-
-        session_write_close();
-
-        return $user;
     }
 
     public static function edit_user_data(User $oldUser, User $newUser) : UserFunctionStatus {
@@ -269,6 +225,186 @@ final class UserFunctions {
 
         return new UserFunctionStatus(true, "Poprawna edycja danych użytkownika.");
     }
+
+    public static function delete_user(User $user) : UserFunctionStatus {
+        
+        $db = new Medoo(array(
+            'database_type' => 'mysql',
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
+        ));
+
+        $orders = OrderFunctions::GetOrders(self::get_user_id($user));
+
+        foreach($orders as $order) {
+            if($order->status == 1) {
+                unset($db);
+                return new UserFunctionStatus(false, "Użytkownik posiada aktywne zamówienia.");
+            }
+        }
+
+        $db->update(
+            'users',
+            [
+                'is_deleted' => 1
+            ],
+            [
+                'email' => $user->email
+            ]
+        );
+
+        unset($db);
+
+        return new UserFunctionStatus(true, "Poprawnie usunięto użytkownika.");
+
+    }
+ 
+    //Logowanie i wylogowywanie użytkownika
+
+    public static function log_in_user(string $email, string $passwd) : UserFunctionStatus {
+
+        session_start();
+
+        $user = self::get_user_by_email($email);
+
+        if($user === false || !password_verify($passwd, $user->passwd)){
+            //zły email
+            return new UserFunctionStatus(false, "Zły adres email lub hasło.");
+        }
+
+        if($user->is_deleted) {
+            //użytkownik usunięty
+            return new UserFunctionStatus(false, "Zły adres email lub hasło.");
+        }
+
+        $_SESSION['user'] = json_encode((array)$user);
+
+        session_write_close();
+
+        return new UserFunctionStatus(true, "Zalogowano.");
+
+    }
+
+    public static function log_out_user() : UserFunctionStatus {
+
+        session_start();
+
+        unset($_SESSION['user']);
+
+        session_write_close();
+
+        return new UserFunctionStatus(true, "Wylogowano.");
+    }
+
+    //Pobieranie danych użytkownika
+
+    public static function get_user_from_session() : User {
+        session_start();
+
+        $d_json = json_decode($_SESSION['user']);
+
+        $user = new User(
+            $d_json->email,
+            $d_json->passwd,
+            $d_json->name,
+            $d_json->surname,
+            $d_json->phone,
+            $d_json->is_verified,
+            $d_json->is_admin,
+        );
+
+        session_write_close();
+
+        return $user;
+    }
+
+    public static function get_user_by_email($email) {
+
+        $db = new Medoo(array(
+            'database_type' => 'mysql',
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
+        ));
+
+        $user = $db->select(
+            'users',
+            [
+                'email',
+                'passwd',
+                'name',
+                'surname',
+                'phone',
+                'is_verified',
+                'is_admin',
+                'is_deleted'
+            ],
+            ['email' => $email]
+        );
+
+        if(!$user){
+            return new UserFunctionStatus(false, "Nie znaleziono użytkownika o podanym emailu.");
+        }
+
+        unset($db);
+
+        return new User(
+            $user[0]['email'],
+            $user[0]['passwd'],
+            $user[0]['name'],
+            $user[0]['surname'],
+            $user[0]['phone'],
+            $user[0]['is_verified'],
+            $user[0]['is_admin'],
+            $user[0]['is_deleted']
+        );
+
+    }
+
+    public static function get_user_id(User $user) : int {
+        $db = new Medoo(array(
+            'database_type' => 'mysql',
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
+        ));
+
+        $id = $db->select(
+            'users',
+            'id',
+            [
+                'email' => $user->email
+            ]
+        );
+
+        unset($db);
+
+        return intval($id[0]);
+    }
+
+    public static function get_all_users() {
+        $db = new Medoo(array(
+            'database_type' => 'mysql',
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
+        ));
+
+        $users = $db->select(
+            'users',
+            '*',
+            ''
+        );
+
+        return $users;
+    }
+
+    //Zmiana i odzyskiwanie hasła
 
     public static function change_user_passwd(string $email, string $oldPasswd, string $oldPasswdR, string $newPasswd) : UserFunctionStatus {
 
@@ -393,7 +529,9 @@ final class UserFunctions {
         return new UserFunctionStatus(true, "Hasło zresetowane poprawnie.");
     }
 
-    public static function get_user_by_email($email) {
+    //Weryfikacja konta
+
+    public static function verify_user(User $user, string $code) : UserFunctionStatus {
 
         $db = new Medoo(array(
             'database_type' => 'mysql',
@@ -403,50 +541,16 @@ final class UserFunctions {
             'password' => self::$db_passwd
         ));
 
-        $user = $db->select(
-            'users',
-            [
-                'email',
-                'passwd',
-                'name',
-                'surname',
-                'phone',
-                'is_verified',
-                'is_admin'
-            ],
-            ['email' => $email]
-        );
-
-        if(!$user){
-            return new UserFunctionStatus(false, "Nie znaleziono użytkownika o podanym emailu.");
+        if($code !== UserFunctions::get_user_verification_code($user)){
+            unset($db);
+            return new UserFunctionStatus(false, "Kody weryfikacji nie są takie same.");
         }
 
-        unset($db);
-
-        return new User(
-            $user[0]['email'],
-            $user[0]['passwd'],
-            $user[0]['name'],
-            $user[0]['surname'],
-            $user[0]['phone'],
-            $user[0]['is_verified'],
-            $user[0]['is_admin']
-        );
-
-    }
-
-    public static function get_user_id(User $user) : int {
-        $db = new Medoo(array(
-            'database_type' => 'mysql',
-            'database_name' => self::$db_name,
-            'server' => self::$db_server,
-            'username' => self::$db_user,
-            'password' => self::$db_passwd
-        ));
-
-        $id = $db->select(
+        $db->update(
             'users',
-            'id',
+            [
+                'is_verified' => true
+            ],
             [
                 'email' => $user->email
             ]
@@ -454,47 +558,7 @@ final class UserFunctions {
 
         unset($db);
 
-        return intval($id[0]);
-    }
-
-    public static function get_user_by_id(int $id) {
-        $db = new Medoo(array(
-            'database_type' => 'mysql',
-            'database_name' => self::$db_name,
-            'server' => self::$db_server,
-            'username' => self::$db_user,
-            'password' => self::$db_passwd
-        ));
-
-        $user = $db->select(
-            'users',
-            [
-                'email',
-                'passwd',
-                'name',
-                'surname',
-                'phone',
-                'is_verified',
-                'is_admin'
-            ],
-            ['id' => $id]
-        );
-
-        if(!$user){
-            return new UserFunctionStatus(false, "Nie znaleziono użytkownika o podanym emailu.");
-        }
-
-        unset($db);
-
-        return new User(
-            $user[0]['email'],
-            $user[0]['passwd'],
-            $user[0]['name'],
-            $user[0]['surname'],
-            $user[0]['phone'],
-            $user[0]['is_verified'],
-            $user[0]['is_admin']
-        );
+        return new UserFunctionStatus(true, "Email zweryfikowany poprawnie.");
     }
 
     public static function get_user_verification_code(User $user) : string {
@@ -518,23 +582,7 @@ final class UserFunctions {
         return $code;
     }
 
-    public static function get_all_users() {
-        $db = new Medoo(array(
-            'database_type' => 'mysql',
-            'database_name' => self::$db_name,
-            'server' => self::$db_server,
-            'username' => self::$db_user,
-            'password' => self::$db_passwd
-        ));
-
-        $users = $db->select(
-            'users',
-            '*',
-            ''
-        );
-
-        return $users;
-    }
+    //Metody prywatyne
 
     private static function check_if_user_exists(string $email) : bool {
 

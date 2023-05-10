@@ -1,0 +1,24 @@
+$primary: #c44238;
+$secondary: #952e2e;
+
+//import bootstrap
+@import "../bootstrap/scss/bootstrap.scss";
+
+.navbar {
+    background-color: var(--bs-secondary);
+}
+
+ul {
+    padding: 0px;
+    margin: 0px;
+}
+
+.centered {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.pizza-img {
+    width: 10rem;
+    border-radius: 0.5rem;
+}

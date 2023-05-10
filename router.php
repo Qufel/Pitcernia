@@ -17,6 +17,10 @@ $routes = [
     $baseUri . 'forgot-password' => 'controllers/forgot-password.php',
     $baseUri . 'pizza' => 'controllers/pizza.php',
     $baseUri . 'order-summary' => 'controllers/order-summary.php',
+    $baseUri . 'orders' => 'controllers/orders.php',
+    $baseUri . '9si5tS_admin' => 'controllers/admin.php',
+    $baseUri . '9si5tS_admin_pizzas' => 'controllers/admin.pizzas.php',
+    $baseUri . '9si5tS_admin_users' => 'controllers/admin.users.php',
 ];
 
 if(array_key_exists($uri, $routes)) {
