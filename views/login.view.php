@@ -7,7 +7,7 @@
 
     <?php require "partials/nav.php" ?>
 
-    <div class="container">
+    <div class="container d-flex mt-3" style="min-height: calc(90vh - 20rem);">
 
         <div class="card form-card col-10 col-sm-8 col-md-6 col-lg-4 my-auto mx-auto">
             <div class="card-body d-flex">

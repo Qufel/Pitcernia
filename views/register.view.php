@@ -7,7 +7,7 @@
 
 <?php require "partials/nav.php" ?>
 
-<div class="container content-holder d-flex justify-content-center flex-column">
+<div class="container mt-3" style="min-height: calc(90vh - 20rem);">
     <div class="card form-card col-11 col-md-10 col-lg-8 col-xl-6 my-auto mx-auto">
         <div class="card-body">
             <div class="my-auto mx-auto p-3">
@@ -88,7 +88,11 @@
         </div>
     </div>
 
+    <div class="spacer"></div>
+
 </div>
+
+<?php require_once "partials/footer.php"?>
 
 <script src="./js/validation.js"></script>
 
