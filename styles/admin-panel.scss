@@ -9,14 +9,54 @@ $secondary: #952e2e;
 }
 
 ul {
+    list-style-type: none;
     padding: 0px;
     margin: 0px;
+}
+
+td {
+    white-space: nowrap;
+}
+
+.img-input {
+    position: relative;
+    margin: 0.5rem;
+    width: 10rem;
+}
+
+
+.img-inp-btn {
+    position: absolute;
+    width: 1.7rem;
+    height: 1.7rem;
+    right: -5px;
+    bottom: -5px;
+    background-color: var(--bs-primary);
+    color: white;
+
+    padding: 0.1rem;
+    border-radius: 50%;
+    border: none;
+
+    text-align: center;
+    vertical-align: middle;
+}
+.img-inp-btn:hover {
+    background-color: var(--bs-secondary);
+    color: white;
+    border-radius: 50%;
+    transform:scale(1.1);
+    border: none;
+}
+
+input[type="file"] {
+    display: none;
 }
 
 .centered {
     text-align: center;
     vertical-align: middle;
-}
+}   
 
 .pizza-img {
     width: 10rem;

@@ -8,7 +8,7 @@ var ascQuantity = false;
 
 var rawFile = new XMLHttpRequest();
 
-rawFile.open("POST", "./pizzas.txt", false);
+rawFile.open("POST", "./pizzas.php", false);
 rawFile.onreadystatechange = function ()
 {
     if(rawFile.readyState === 4)
