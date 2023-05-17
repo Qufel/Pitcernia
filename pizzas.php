@@ -2,4 +2,9 @@
 
 require_once "menu.functions.php";
 
-echo json_encode(MenuFunctions::get_pizzas());
+$json = [
+    "pizzas" => MenuFunctions::get_pizzas(),
+    "toppings" => MenuFunctions::GetAllToppings()
+];
+
+echo json_encode($json);

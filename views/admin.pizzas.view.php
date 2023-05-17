@@ -13,7 +13,6 @@
 </head>
 
 <?php
-
 require_once "menu.functions.php";
 
 $toppings = MenuFunctions::GetAllToppings();
@@ -39,69 +38,28 @@ $toppings = MenuFunctions::GetAllToppings();
     <div class="container d-flex flex-column gap-2 my-3">
         <section class="card">
             <div class="card-body">
-                <h4 class="h4 card-title">Pizze</h4>
+                <div class="position-relative d-flex w-100">
+                    <h4 class="h4 card-title">Pizze</h4>
+                    <form action="admin/save-pizzas.php" method="post" id="pizzas-form">
+                        <div class="position-absolute end-0 d-flex gap-2">
+                            <button type="reset" id="reset-btn" class="btn btn-danger"><i class="bi bi-x-lg"></i> Odrzuć zmiany</button>
+                            <button type="submit" id="submit-btn" name="pizzas-data" class="btn btn-success"><i class="bi bi-pencil-square"></i> Zapisz</button>
+                        </div>
+                    </form>
+                </div>
+                <hr>
                 <div class="table-responsive">
                     <form action="" method="">
-                        <table class="table table-sm">
+                        <table id="pizza-list" class="table table-sm">
                             <thead>
-                                <th>Zdjęcie</th>
-                                <th>Nazwa</th>
-                                <th>Rozmiar</th>
-                                <th>Składniki</th>
-                                <th>Cena</th>
+                                <th style="width: 10%;">Zdjęcie</th>
+                                <th style="width: 25%;">Nazwa</th>
+                                <th style="width: 15%;">Rozmiar</th>
+                                <th style="width: 35%;">Składniki</th>
+                                <th style="width: 15%;">Cena</th>
                             </thead>
                             <tbody>
-                                <td style="width: 10rem;">
-                                    <div class="img-input">
-                                        <img class="pizza-img" src="./assets/margaritha.webp" alt="margaritha.webp" srcset="">
-                                        <input type="file" id="pizza-id-1"></input>
-                                        <label for="pizza-id-1" class="img-inp-btn">
-                                            <div>
-                                                <i class="bi bi-pencil-square"></i>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-group">
-                                        <span class="input-group-text">Pizza</span>
-                                        <input value="Margaritha" class="form-control form-control" type="text" placeholder="Nazwa">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="input-group">
-                                        <input value="25" class="form-control form-control" type="number" min="0" placeholder="Rozmiar">
-                                        <span class="input-group-text">cm</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <ul class="list-group">
-                                        <li class="list-group-item">
-                                            <span>Mozzarella</span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span>Sos pomidorowy</span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="dropdown">
-                                                <a href="#" class="btn btn-primary dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">Dodaj składnik</a>
-                                                <ul class="dropdown-menu">
-                                                    <?php foreach ($toppings as $topping) : ?>
-                                                        <li>
-                                                            <a class="topping-btn dropdown-item" href="#" role="button"><?= $topping['topping'] ?></a>
-                                                        </li>
-                                                    <?php endforeach; ?>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <div class="input-group">
-                                        <input value="19.99" class="form-control form-control" type="number" min="0" step=".01" placeholder="Cena">
-                                        <span class="input-group-text">zł</span>
-                                    </div>
-                                </td>
+
                             </tbody>
                         </table>
                     </form>
@@ -169,7 +127,10 @@ $toppings = MenuFunctions::GetAllToppings();
 
     <script src="js/error-modal.js"></script>
     <script src="js/tooltip.js"></script>
-    <script src="js/get-pizzas.js"></script>
+    <script src="js/admin/load-pizzas.js"></script>
+    <script src="js/admin/delete-topping.js"></script>
+    <script src="js/admin/add-topping.js"></script>
+    <script src="js/admin/pizza-data-mod.js"></script>
 </body>
 
 </html>

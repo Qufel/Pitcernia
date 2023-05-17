@@ -50,7 +50,8 @@ final class MenuFunctions
     private static $db_user = 'root';
     private static $db_passwd = '';
 
-    public static function get_pizzas(): Array {
+    public static function get_pizzas(): array
+    {
         $db = new Medoo(array(
             'database_type' => 'mysql',
             'database_name' => self::$db_name,
@@ -76,7 +77,8 @@ final class MenuFunctions
         return $pizzas;
     }
 
-    public static function get_pizza_by_id(int $id) : Pizza {
+    public static function get_pizza_by_id(int $id): Pizza
+    {
         $db = new Medoo(array(
             'database_type' => 'mysql',
             'database_name' => self::$db_name,
@@ -98,7 +100,8 @@ final class MenuFunctions
         return new Pizza($pizza['id'], $pizza['name'], $pizza['size'], $pizza['price'], self::GetToppings($pizza['id']), $pizza['img_src']);
     }
 
-    public static function GetPizzaSizesWithIdByName(string $name) : Array {
+    public static function GetPizzaSizesWithIdByName(string $name): array
+    {
 
         $db = new Medoo(array(
             'database_type' => 'mysql',
@@ -122,10 +125,10 @@ final class MenuFunctions
         unset($db);
 
         return $pizzas;
-
     }
 
-    public static function GetAllToppings() {
+    public static function GetAllToppings()
+    {
 
         $db = new Medoo(array(
             'database_type' => 'mysql',
@@ -146,9 +149,10 @@ final class MenuFunctions
         return $toppings;
     }
 
-    public static function AddTopping (string $topping) : MenuFunctionStatus{
+    public static function AddTopping(string $topping): MenuFunctionStatus
+    {
 
-        if($topping == "") {
+        if ($topping == "") {
             return new MenuFunctionStatus(false, "Składnik musi mieć nazwę.");
         }
 
@@ -164,26 +168,27 @@ final class MenuFunctions
 
         $is_topping = array_search($topping, $toppings, true);
 
-        if(!$is_topping) {
+        if (!$is_topping) {
             return new MenuFunctionStatus(false, "Składnik już istnieje.");
         }
 
-        // $id = $db->insert(
-        //     'toppings',
-        //     [
-        //         null,
-        //         $topping
-        //     ]
-        // );
+        $id = $db->insert(
+            'toppings',
+            [
+                null,
+                $topping
+            ]
+        );
 
         unset($db);
         return new MenuFunctionStatus(true, "Pomyślnie dodano składnik.");
     }
 
-    public static function DeleteTopping(int $id) : MenuFunctionStatus{
+    public static function DeleteTopping(int $id): MenuFunctionStatus
+    {
         $toppings = self::GetAllToppings();
         $exist = array_search($id, array_column($toppings, 'id'));
-        if(!$exist) {
+        if (!$exist) {
             return new MenuFunctionStatus(false, "Składnik nie istnieje.");
         }
 
@@ -201,7 +206,7 @@ final class MenuFunctions
         );
 
         foreach ($pizza_toppings as $d) {
-            if($d['toppings_id'] == $id) {
+            if ($d['toppings_id'] == $id) {
                 return new MenuFunctionStatus(false, "Nie można usunąć składnika. Składnik jest w składzie pizzy : {$d['pizzas_id']}");
             }
         }
@@ -210,7 +215,8 @@ final class MenuFunctions
         return new MenuFunctionStatus(true, "Pomyślnie usunięto składnik.");
     }
 
-    public static function GetAllSizes() {
+    public static function GetAllSizes()
+    {
         $db = new Medoo(array(
             'database_type' => 'mysql',
             'database_name' => self::$db_name,
@@ -230,7 +236,86 @@ final class MenuFunctions
         return $sizes;
     }
 
-    private static function GetToppings(int $pizza_id) : array {
+    public static function AlterPizzas(array $pizzas) : MenuFunctionStatus
+    {
+        $db = new Medoo(array(
+            'database_type' => 'mysql',
+            'database_name' => self::$db_name,
+            'server' => self::$db_server,
+            'username' => self::$db_user,
+            'password' => self::$db_passwd
+        ));
+
+
+        foreach ($pizzas as $pizza) {
+            $dbPizza = self::get_pizza_by_id($pizza->id);
+            $db->update(
+                "pizzas",
+                [
+                    "name" => $pizza->name,
+                    "size" => $pizza->size,
+                    "price" => $pizza->price,
+                    "img_src" => $pizza->img_src
+                ],
+                [
+                    "id" => $pizza->id
+                ]
+            );
+
+            $toppingsSource = (array) $dbPizza->toppings;
+            $toppingsAltered = (array) $pizza->toppings;
+
+            $toppingsDeleted = array_map(function ($t) {
+                return (array) $t;
+            }, $toppingsSource);
+            $toppingsAdded = array_map(function ($t) {
+                return (array) $t;
+            }, $toppingsAltered);
+
+            $flattenArray1 = array_map('serialize', $toppingsDeleted);
+            $flattenArray2 = array_map('serialize', $toppingsAdded);
+
+            $common = array_intersect($flattenArray1, $flattenArray2);
+
+            $common = array_map('unserialize', $common);
+
+            foreach($common as $c) {
+                if(($key = array_search($c, $toppingsAdded)) !== false) {
+                    unset($toppingsAdded[$key]);
+                }
+                if(($key = array_search($c, $toppingsDeleted)) !== false) {
+                    unset($toppingsDeleted[$key]);
+                }
+            }
+
+            foreach($toppingsDeleted as $td) {
+                $db->delete(
+                    'pizza_toppings',
+                    [
+                        "pizzas_id" => $pizza->id,
+                        "toppings_id" => $td['id']
+                    ]
+                );
+            }
+            foreach($toppingsAdded as $ta) {
+                $db->insert(
+                    'pizza_toppings',
+                    [
+                        'pizzas_id' => $pizza->id,
+                        'toppings_id' => $ta['id']
+                    ]
+                );
+            }
+
+        }
+
+        unset($db);
+
+        return new MenuFunctionStatus(true, "Poprawna edycja pizz.");
+    }
+
+    private static function GetToppings(int $pizza_id): array
+    {
         $db = new Medoo(array(
             'database_type' => 'mysql',
             'database_name' => self::$db_name,
@@ -240,7 +325,7 @@ final class MenuFunctions
         ));
 
         $toppings = $db->select(
-            "toppings", 
+            "toppings",
             [
                 "[>]pizza_toppings" => ["id" => "toppings_id"],
                 "[>]pizzas" => ["pizza_toppings.pizzas_id" => "id"]
@@ -254,7 +339,7 @@ final class MenuFunctions
             ]
         );
 
-        if($toppings == null){
+        if ($toppings == null) {
             return [];
         }
 

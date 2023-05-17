@@ -19,7 +19,7 @@ rawFile.onreadystatechange = function ()
     {
         if(rawFile.status === 200 || rawFile.status == 0)
         {
-            pizzas = JSON.parse(rawFile.responseText);
+            pizzas = JSON.parse(rawFile.responseText)["pizzas"];
         }
     }
 }
