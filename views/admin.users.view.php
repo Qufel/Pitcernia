@@ -15,6 +15,17 @@
     <title>Pitcernia - Panel Zarządzania</title>
 </head>
 
+<?php
+require_once "user.functions.php";
+$users = UserFunctions::get_all_users();
+$activeUsers = array_values(array_filter($users, function ($user) {
+    return $user['is_deleted'] == 0;
+}));
+$deletedUsers = array_values(array_filter($users, function ($user) {
+    return $user['is_deleted'] == 1;
+}));
+?>
+
 <body>
     <nav class="navbar p-2 navbar-expand-md navbar-light">
         <div class="container">
@@ -50,15 +61,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th id="user-id-1" scope="row">1</th>
-                                <td>karol.wojtyla@gmail.com</td>
-                                <td>Karol</td>
-                                <td>Wojtyła</td>
-                                <td>213742069</td>
-                                <td>TAK</td>
-                                <td>NIE</td>
-                            </tr>
+                            <?php if (count($activeUsers) > 0) : ?>
+                                <?php for ($i = 1; $i <= count($activeUsers); $i++) : ?>
+                                    <tr id="user-id-<?= $activeUsers[$i - 1]['id'] ?>">
+                                        <th scope="row"><?= $i ?></th>
+                                        <td><?= $activeUsers[$i - 1]['email'] ?></td>
+                                        <td><?= $activeUsers[$i - 1]['name'] ?></td>
+                                        <td><?= $activeUsers[$i - 1]['surname'] ?></td>
+                                        <td><?= $activeUsers[$i - 1]['phone'] ?></td>
+                                        <td><?= $activeUsers[$i - 1]['is_verified'] ? "TAK" : "NIE" ?></td>
+                                        <td><?= $activeUsers[$i - 1]['is_admin'] ? "TAK" : "NIE" ?></td>
+                                    </tr>
+                                <?php endfor; ?>
+                            <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
@@ -67,6 +82,36 @@
         <section class="card">
             <div class="card-body">
                 <h4 class="h4 card-title">Usunięci użytkownicy</h4>
+                <div class="table-responsive">
+                    <table class="table table-sm centered">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Imię</th>
+                                <th scope="col">Nazwisko</th>
+                                <th scope="col">Telefon</th>
+                                <th scope="col">Zweryfikowany</th>
+                                <th scope="col">Administrator</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (count($deletedUsers) > 0) : ?>        
+                                <?php for ($i = 1; $i <= count($deletedUsers); $i++) : ?>
+                                    <tr id="user-id-<?= $deletedUsers[$i - 1]['id'] ?>">
+                                        <th scope="row"><?= $i ?></th>
+                                        <td><?= $deletedUsers[$i - 1]['email'] ?></td>
+                                        <td><?= $deletedUsers[$i - 1]['name'] ?></td>
+                                        <td><?= $deletedUsers[$i - 1]['surname'] ?></td>
+                                        <td><?= $deletedUsers[$i - 1]['phone'] ?></td>
+                                        <td><?= $deletedUsers[$i - 1]['is_verified'] ? "TAK" : "NIE" ?></td>
+                                        <td><?= $deletedUsers[$i - 1]['is_admin'] ? "TAK" : "NIE" ?></td>
+                                    </tr>
+                                <?php endfor; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </section>
     </div>

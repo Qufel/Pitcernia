@@ -21,6 +21,7 @@ var LoadDataChangeEvents = function (data) {
                 inp.value = '';
                 return;
             }
+            data['pizzas'][data['pizzas'].indexOf(pizza)].img_src = file.name;
             if(file) {
                 let reader = new FileReader();
                 reader.addEventListener("load", () => {
@@ -85,6 +86,8 @@ var LoadDataChangeEvents = function (data) {
     //form
     let form = document.querySelector("#pizzas-form");
     form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
         let formData = new FormData();
         formData.append("data", JSON.stringify(data));
         
@@ -92,7 +95,9 @@ var LoadDataChangeEvents = function (data) {
             formData.append("imgs[]", img);
         });
 
-        fetch("pitcernia/admin/save-pizzas.php", {
+        console.log(formData)
+
+        fetch("./admin/save-pizzas.php", {
             method: 'POST',
             body: formData,
         }).then((res) => {
