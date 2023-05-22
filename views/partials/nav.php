@@ -35,19 +35,19 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarUser">
                             <li>
-                                <a href="profile" class="dropdown-item">
+                                <a id="profile-btn" href="profile" class="dropdown-item">
                                 <i class="bi bi-person-fill"></i> Zobacz profil
                                 </a>
                             </li>
                             <li>
-                                <a href="orders" class="dropdown-item">
+                                <a id="orders-btn" href="orders" class="dropdown-item">
                                 <i class="bi bi-ui-checks"></i> Zamówienia
                                 </a>
                             </li>
                             <li>
-                                <a href="log-out-user.php" class="dropdown-item" role="button">
+                                <button id="logout-btn" class="dropdown-item" type="button">
                                 <i class="bi bi-box-arrow-left"></i> Wyloguj się
-                                </a>
+                                </button>
                             </li>
                         </ul>
                     </li>
@@ -71,6 +71,8 @@
     </div>
 
     <script src="js/items-in-cart.js"></script>
+    <script src="js/reset-cart.js"></script>
+    <script src="js/users/log-out-user.js"></script>
 
 </nav>
 

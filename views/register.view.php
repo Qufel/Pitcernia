@@ -12,9 +12,8 @@
         <div class="card-body">
             <div class="my-auto mx-auto p-3">
                 <h3 class="card-title text-center">Zarejestruj się</h3>
-                <form action="registration.php" method="post" class="needs-validation">
+                <form id="registration-form" class="needs-validation">
                     <br>
-                    
                     <div class="d-flex gap-3">
                         <div class="mb-3 flex-fill">
                             <div class="form-floating">
@@ -77,8 +76,8 @@
                         <button type="submit" class="btn btn-primary">Zarejestruj się</button>
                     </div>
 
-                    <div id="form-error-box" class="text-danger <?= isset($_GET['s']) ? (($_GET['s'] == "false") ? '' : 'd-none') : 'd-none' ?>">
-                        <p id="form-error-text"> <span class="badge bg-danger">!</span> <?= isset($_GET['m']) ? $_GET['m'] : '' ?></p>
+                    <div id="form-error-box" class="text-danger d-none">
+                        <p><span class="badge bg-danger">!</span><span  id="form-error-text"></span></p>
                     </div>
 
                     <p>Masz już konto? <a href="login" class="text-dark">Zaloguj się</a></p>
@@ -95,6 +94,7 @@
 <?php require_once "partials/footer.php"?>
 
 <script src="./js/validation.js"></script>
+<script src="./js/users/registration.js"></script>
 
 </body>
 </html>

@@ -17,13 +17,5 @@ if($_POST){
     $res = UserFunctions::edit_user_data($oldUser, $newUser);
 }
 
-setcookie('edit','',time()-1);
-unset($_COOKIE['edit']);
+echo json_encode(["s" => $res->status,"m" => $res->message]);
 
-$s = json_encode($res->status);
-if($res->status){
-  header("Location:profile");
-}
-else{
-  header("Location:profile?s=$s&m=$res->message");
-}

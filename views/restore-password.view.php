@@ -7,7 +7,7 @@
 
     <?php require "partials/nav.php" ?>
 
-    <div class="content-holder container d-flex justify-content-center align-items-center">
+    <div class="content-holder container d-flex mt-3" style="min-height: calc(90vh - 20rem);">
         <div class="card col-md-6 col-11 my-auto mx-auto">
             <div class="card-body">
                 <h4>Odzyskiwanie hasła</h4>
@@ -30,6 +30,8 @@
             </div>
         </div>
     </div>
+
+    <div class="spacer"></div>
 
     <?php require "partials/footer.php" ?>
 

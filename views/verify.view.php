@@ -13,7 +13,7 @@
         <h3 class="card-title text-center">Zweryfikuj swój email</h3>
         <div class="card-body">
             <p class="text-center">Dziękujemy za rejestrację konta w naszym serwisie. Aby w pełni ukończyć proces rejestracji, musisz jeszcze zweryfikować swój email.</p>
-            <form action="send-verification.php" method="get" class="text-center">
+            <form id="send-verification" class="text-center">
                 <input type="hidden" name="email" value="<?= $_GET['email'] ?>">
                 <button type="submit" class="btn btn-primary">Wyślij link weryfikacyjny</button>
             </form>
@@ -21,6 +21,8 @@
     </div>
 
 </div>
+
+<script src="./js/users/send-verification.js"></script>
 
 </body>
 </html>
