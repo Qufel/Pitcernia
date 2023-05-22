@@ -6,7 +6,7 @@ fetch("./pizzas.php").then(
         return res.json();
     }
 ).then((data) => {
-    if(localStorage.getItem("ueData") == null) {
+    if (localStorage.getItem("ueData") == null) {
         localStorage.setItem("ueData", JSON.stringify({
             "pizzas": data["pizzas"],
             "toppings": data["toppings"]
@@ -18,6 +18,14 @@ fetch("./pizzas.php").then(
         SaveDataToLS(uneditedData);
         GenerateTable(uneditedData);
     });
+
+    var hash = window.location.hash;
+    if (hash) {
+        var element = document.querySelector(hash);
+        element.classList.add("selected");
+        element.scrollIntoView();
+    }
+
 }).catch((error) => {
     console.error(`Fetch error: ${error}`);
 });
@@ -28,7 +36,7 @@ function GenerateTable(data) {
     data["pizzas"].forEach(d => {
         table.append(ConstructRow(d, data["toppings"]));
     });
-    LoadDeleteToppingBtns(data);    
+    LoadDeleteToppingBtns(data);
     LoadAddToppingBtns(data);
     LoadDataChangeEvents(data);
 }
@@ -79,7 +87,7 @@ function ConstructRow(pizza, all_toppings) {
 
     img_lbl.append(icon);
 
-    content.append(img,img_input,img_lbl);
+    content.append(img, img_input, img_lbl);
 
     img_col.append(content);
 

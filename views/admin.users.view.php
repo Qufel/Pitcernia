@@ -115,6 +115,10 @@ $deletedUsers = array_values(array_filter($users, function ($user) {
             </div>
         </section>
     </div>
+    
+    <script src="js/scroll-to-hash.js"></script>
+
 </body>
+
 
 </html>

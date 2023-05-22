@@ -40,10 +40,10 @@ $toppings = MenuFunctions::GetAllToppings();
             <div class="card-body">
                 <div class="position-relative d-flex w-100">
                     <h4 class="h4 card-title">Pizze</h4>
-                    <form action="admin/save-pizzas.php" method="post" id="pizzas-form">
+                    <form id="pizzas-form">
                         <div class="position-absolute end-0 d-flex gap-2">
                             <button type="reset" id="reset-btn" class="btn btn-danger"><i class="bi bi-x-lg"></i> Odrzuć zmiany</button>
-                            <button type="submit" id="submit-btn" name="pizzas-data" class="btn btn-success"><i class="bi bi-pencil-square"></i> Zapisz</button>
+                            <button type="submit" id="submit-btn" class="btn btn-success"><i class="bi bi-pencil-square"></i> Zapisz</button>
                         </div>
                     </form>
                 </div>
@@ -70,7 +70,7 @@ $toppings = MenuFunctions::GetAllToppings();
             <div class="card-body">
                 <h4 class="h4 card-title">Składniki</h4>
                 <div class="table-responsive">
-                    <table class="table table-sm centered">
+                    <table class="table table-sm centered"  style="overflow:visible;">
                         <thead>
                             <th scope="col">#</th>
                             <th scope="col">Składnik</th>
@@ -127,6 +127,7 @@ $toppings = MenuFunctions::GetAllToppings();
 
     <script src="js/error-modal.js"></script>
     <script src="js/tooltip.js"></script>
+    <script src="js/scroll-to-hash.js"></script>
     <script src="js/admin/load-pizzas.js"></script>
     <script src="js/admin/delete-topping.js"></script>
     <script src="js/admin/add-topping.js"></script>

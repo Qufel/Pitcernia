@@ -4,6 +4,10 @@ $secondary: #952e2e;
 //import bootstrap
 @import "../bootstrap/scss/bootstrap.scss";
 
+html {
+    scroll-behavior: smooth;
+}
+
 .navbar {
     background-color: var(--bs-secondary);
 }
@@ -12,6 +16,10 @@ ul {
     list-style-type: none;
     padding: 0px;
     margin: 0px;
+}
+
+tr {
+    border-radius: 0.5rem;
 }
 
 td {
@@ -69,4 +77,16 @@ input[type="file"] {
 .pizza-img {
     width: 10rem;
     border-radius: 0.5rem;
+}
+
+.selected {
+    background-color: var(--bs-white);
+    animation: select 1.25s 0.75s linear;
+    border-radius: 0.5rem;
+}
+
+@keyframes select {
+    0% {background-color: var(--bs-white);}
+    50% {background-color: #dddddda1;}
+    100% {background-color: var(--bs-white);}
 }

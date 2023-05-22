@@ -86,6 +86,7 @@ var LoadDataChangeEvents = function (data) {
     //form
     let form = document.querySelector("#pizzas-form");
     form.addEventListener("submit", (e) => {
+        console.log(e.currentTarget);
         e.preventDefault();
 
         let formData = new FormData();
@@ -102,7 +103,7 @@ var LoadDataChangeEvents = function (data) {
             body: formData,
         }).then((res) => {
             if(res.ok) {
-                console.log("Upload successful.");
+                formData = null;
             } else {
                 throw new Error ("Upload failure.");
             }

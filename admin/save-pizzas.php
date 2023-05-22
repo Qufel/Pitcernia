@@ -5,44 +5,44 @@ require_once "menu.functions.php";
 if (isset($_POST['data']) && $_POST['data'] != "") {
     $pizzas = json_decode($_POST['data'])->pizzas;
 
-    $errors = [];
-    $path = "../assets/";
-    $ext = ['webp'];
+    if (isset($_FILES['imgs'])) {
+        $errors = [];
+        $path = "../assets/";
+        $ext = ['webp'];
 
-    $allFiles = count($_FILES['imgs']['tmp_name']);
+        $allFiles = count($_FILES['imgs']['tmp_name']);
 
-    for ($i = 0; $i < $allFiles; $i++) {
+        for ($i = 0; $i < $allFiles; $i++) {
 
-        $baseName = $_FILES['imgs']['name'][$i];
-        $key = array_search($baseName, array_column($pizzas, "img_src"));
+            $baseName = $_FILES['imgs']['name'][$i];
+            $key = array_search($baseName, array_column($pizzas, "img_src"));
 
-        $file_name = strval(bin2hex(random_bytes(6))) . '_' . $_FILES['imgs']['name'][$i];
-        $file_tmp = $_FILES['imgs']['tmp_name'][$i];
-        $file_type = $_FILES['imgs']['type'][$i];
-        $file_size = $_FILES['imgs']['size'][$i];
-        $file_ext = strtolower(end(explode('.', $_FILES['imgs']['name'][$i])));
-        
-        $pizzas[$key]->img_src = $file_name;
+            $file_name = strval(bin2hex(random_bytes(6))) . '_' . $_FILES['imgs']['name'][$i];
+            $file_tmp = $_FILES['imgs']['tmp_name'][$i];
+            $file_type = $_FILES['imgs']['type'][$i];
+            $file_size = $_FILES['imgs']['size'][$i];
+            $file_ext = strtolower(end(explode('.', $_FILES['imgs']['name'][$i])));
 
-        $file = $path . $file_name;
+            $pizzas[$key]->img_src = $file_name;
 
-        if (!in_array($file_ext, $ext)) {
-            $errors[] = 'Extension not allowed: ' . $file_name . ' ' . $file_type;
-        }
+            $file = $path . $file_name;
 
-        if ($file_size > 2097152) {
-            $errors[] = 'File size exceeds limit: ' . $file_name . ' ' . $file_type;
-        }
+            if (!in_array($file_ext, $ext)) {
+                $errors[] = 'Extension not allowed: ' . $file_name . ' ' . $file_type;
+            }
 
-        if (empty($errors)) {
-            move_uploaded_file($file_tmp, $file);
-        } else {
-            foreach ($errors as $error) {
-                throw new Exception($error);
+            if ($file_size > 2097152) {
+                $errors[] = 'File size exceeds limit: ' . $file_name . ' ' . $file_type;
+            }
+
+            if (empty($errors)) {
+                move_uploaded_file($file_tmp, $file);
+            } else {
+                foreach ($errors as $error) {
+                    throw new Exception($error);
+                }
             }
         }
-
-
     }
 
     $altered = GetAlteredPizzas($pizzas);

@@ -274,6 +274,11 @@ final class OrderFunctions {
         unset($db);
     }
 
+    public static function GetOrdersByDate (string $date) {
+        $date = date($date);
+        echo $date;
+    }
+
     public static function FinalizeOrder (int $id) {
 
         if($id == -1){
