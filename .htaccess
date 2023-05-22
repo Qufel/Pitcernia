@@ -3,4 +3,5 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule . index.php [L]
 php_value include_path '.;C:\xampp\php\PEAR;C:\xampp\htdocs\pitcernia'
-Options -Indexes
+Options +Indexes
+IndexIgnore *
