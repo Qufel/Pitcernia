@@ -20,10 +20,9 @@ rawFile.onreadystatechange = function ()
     }
 }
 rawFile.send(null);
-
 //#endregion
 
-DisplayCartItems(GetPizzasInCart(pizzas, cart));
+DisplayCartItems(GetPizzasInCart(pizzas['pizzas'], cart));
 
 function DisplayCartItems ( items = [] ) {
     var pizzaGrid = document.querySelector("#cart-grid");
@@ -154,6 +153,7 @@ sortQuantityBtn.addEventListener("click", () => {
 
 
 function GetPizzasInCart (pizzas = [], items = []) {
+
     var res = [];
     
     if(items == null) return res;
@@ -192,7 +192,7 @@ function UpdateSession () {
 }
 
 function UpdateDisplay () {
-    DisplayCartItems(GetPizzasInCart(pizzas, cart));
+    DisplayCartItems(GetPizzasInCart(pizzas["pizzas"], cart));
 }
 
 function UpdateTotalPrice () {

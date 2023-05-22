@@ -1,5 +1,8 @@
 var cart = JSON.parse(sessionStorage.getItem("cart"));
-var amount = cart.reduce((acc, pizza) => acc + pizza.pizzaCount, 0);
+var amount = 0;
+if(cart != null) {
+    amount = cart.reduce((acc, pizza) => acc + pizza.pizzaCount, 0);
+}
 
 var amountDisplay = document.querySelector("#cart-items-amount");
 
